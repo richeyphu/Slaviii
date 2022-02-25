@@ -14,44 +14,47 @@ import { getDocs, query, where, orderBy } from "firebase/firestore";
 export default function HomeScreen(props) {
   const [entityText, setEntityText] = useState("");
   const [entities, setEntities] = useState([]);
-	const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const entityInstance = firebase.firestore().collection("entities");
   const userID = props.extraData.id;
 
   const getEntities = () => {
-		setLoading(true);
-    const entityQuery = query(entityInstance);
-    getDocs(entityQuery).then((entities) => {
-      setEntities(
-        entities.docs.map((entity) => {
-          return { ...entity.data() };
-        })
-      );
-    });
-		setLoading(false);
+    setLoading(true);
+
+    // const entityQuery = query(entityInstance);
+    // getDocs(entityQuery).then((entities) => {
+    //   setEntities(
+        // entities.docs.map((entity) => {
+        //   return { ...entity.data() };
+        // })
+    //   );
+    // });
+
+    entityInstance
+    .where("authorID", "==", userID)
+    .orderBy("createdAt", "desc")
+    .onSnapshot(
+      (querySnapshot) => {
+        alert(querySnapshot.size);
+        const newEntities = [];
+        querySnapshot.forEach((doc) => {
+          const entity = doc.data();
+          entity.id = doc.id;
+          newEntities.push(entity);
+        });
+        setEntities(newEntities);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    setLoading(false);
   };
 
   useEffect(() => {
     getEntities();
-
-    // entityInstance
-    //   .where("authorID", "==", userID)
-    //   .orderBy("createdAt", "desc")
-    //   .onSnapshot(
-    //     (querySnapshot) => {
-    //       const newEntities = [];
-    //       querySnapshot.forEach((doc) => {
-    //         const entity = doc.data();
-    //         entity.id = doc.id;
-    //         newEntities.push(entity);
-    //       });
-    //       setEntities(newEntities);
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
   }, []);
 
   const onAddButtonPress = () => {
@@ -72,7 +75,7 @@ export default function HomeScreen(props) {
           alert(error);
         });
     }
-		getEntities();
+    getEntities();
   };
 
   const renderEntity = ({ item, index }) => {
@@ -85,7 +88,7 @@ export default function HomeScreen(props) {
     );
   };
 
-	const _onRefresh = () => {
+  const _onRefresh = () => {
     getEntities();
   };
 
@@ -112,10 +115,10 @@ export default function HomeScreen(props) {
             renderItem={renderEntity}
             keyExtractor={(item) => item.id}
             removeClippedSubviews={true}
-						onRefresh={() => {
-							_onRefresh();
-						}}
-						refreshing={loading}
+            onRefresh={() => {
+              _onRefresh();
+            }}
+            refreshing={loading}
           />
         </View>
       )}
