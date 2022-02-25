@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { firebase } from "../../firebase/config";
-import { getDocs, query, where, orderBy } from "firebase/firestore";
+// import { getDocs, query, where, orderBy } from "firebase/firestore";
 
 export default function HomeScreen(props) {
   const [entityText, setEntityText] = useState("");
@@ -33,15 +33,18 @@ export default function HomeScreen(props) {
 
      entityInstance
       .where("authorID", "==", userID)
-      .orderBy("createdAt", "desc")
+      // .orderBy("createdAt", "desc")
       .onSnapshot(
         (querySnapshot) => {
-          // alert(querySnapshot.size);
           const newEntities = [];
           querySnapshot.forEach((doc) => {
             const entity = doc.data();
             entity.id = doc.id;
             newEntities.push(entity);
+          });
+          // orderBy("createdAt", "desc")
+          newEntities.sort((a, b) => {
+            return b.createdAt - a.createdAt;
           });
           setEntities(newEntities);
         },
