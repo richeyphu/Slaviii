@@ -25,30 +25,30 @@ export default function HomeScreen(props) {
     // const entityQuery = query(entityInstance);
     // getDocs(entityQuery).then((entities) => {
     //   setEntities(
-        // entities.docs.map((entity) => {
-        //   return { ...entity.data() };
-        // })
+    // entities.docs.map((entity) => {
+    //   return { ...entity.data() };
+    // })
     //   );
     // });
 
-    entityInstance
-    .where("authorID", "==", userID)
-    .orderBy("createdAt", "desc")
-    .onSnapshot(
-      (querySnapshot) => {
-        alert(querySnapshot.size);
-        const newEntities = [];
-        querySnapshot.forEach((doc) => {
-          const entity = doc.data();
-          entity.id = doc.id;
-          newEntities.push(entity);
-        });
-        setEntities(newEntities);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+     entityInstance
+      .where("authorID", "==", userID)
+      .orderBy("createdAt", "desc")
+      .onSnapshot(
+        (querySnapshot) => {
+          // alert(querySnapshot.size);
+          const newEntities = [];
+          querySnapshot.forEach((doc) => {
+            const entity = doc.data();
+            entity.id = doc.id;
+            newEntities.push(entity);
+          });
+          setEntities(newEntities);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
 
     setLoading(false);
   };
