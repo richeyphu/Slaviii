@@ -78,7 +78,6 @@ export default function HomeScreen(props) {
           alert(error);
         });
     }
-    getEntities();
   };
 
   const renderEntity = ({ item, index }) => {
