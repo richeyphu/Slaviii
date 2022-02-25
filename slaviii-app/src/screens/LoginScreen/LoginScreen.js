@@ -47,7 +47,7 @@ export default function LoginScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../assets/adaptive-icon.png")}
+          source={require("../../../assets/adaptive-icon.png")}
         />
         <TextInput
           style={styles.input}

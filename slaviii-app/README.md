@@ -1,3 +1,3 @@
 # slaviii-app
 
-![logo](src/assets/icon.png)
+![logo](assets/icon.png)
