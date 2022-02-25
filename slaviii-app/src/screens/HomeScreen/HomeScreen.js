@@ -9,32 +9,49 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { firebase } from "../../firebase/config";
+import { getDocs, query, where, orderBy } from "firebase/firestore";
 
 export default function HomeScreen(props) {
   const [entityText, setEntityText] = useState("");
   const [entities, setEntities] = useState([]);
+	const [loading, setLoading] = useState(false);
 
-  const entityRef = firebase.firestore().collection("entities");
+  const entityInstance = firebase.firestore().collection("entities");
   const userID = props.extraData.id;
 
-  useEffect(() => {
-    entityRef
-      .where("authorID", "==", userID)
-      .orderBy("createdAt", "desc")
-      .onSnapshot(
-        (querySnapshot) => {
-          const newEntities = [];
-          querySnapshot.forEach((doc) => {
-            const entity = doc.data();
-            entity.id = doc.id;
-            newEntities.push(entity);
-          });
-          setEntities(newEntities);
-        },
-        (error) => {
-          console.log(error);
-        }
+  const getEntities = () => {
+		setLoading(true);
+    const entityQuery = query(entityInstance);
+    getDocs(entityQuery).then((entities) => {
+      setEntities(
+        entities.docs.map((entity) => {
+          return { ...entity.data() };
+        })
       );
+    });
+		setLoading(false);
+  };
+
+  useEffect(() => {
+    getEntities();
+
+    // entityInstance
+    //   .where("authorID", "==", userID)
+    //   .orderBy("createdAt", "desc")
+    //   .onSnapshot(
+    //     (querySnapshot) => {
+    //       const newEntities = [];
+    //       querySnapshot.forEach((doc) => {
+    //         const entity = doc.data();
+    //         entity.id = doc.id;
+    //         newEntities.push(entity);
+    //       });
+    //       setEntities(newEntities);
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
   }, []);
 
   const onAddButtonPress = () => {
@@ -45,7 +62,7 @@ export default function HomeScreen(props) {
         authorID: userID,
         createdAt: timestamp,
       };
-      entityRef
+      entityInstance
         .add(data)
         .then((_doc) => {
           setEntityText("");
@@ -55,6 +72,7 @@ export default function HomeScreen(props) {
           alert(error);
         });
     }
+		getEntities();
   };
 
   const renderEntity = ({ item, index }) => {
@@ -65,6 +83,10 @@ export default function HomeScreen(props) {
         </Text>
       </View>
     );
+  };
+
+	const _onRefresh = () => {
+    getEntities();
   };
 
   return (
@@ -90,6 +112,10 @@ export default function HomeScreen(props) {
             renderItem={renderEntity}
             keyExtractor={(item) => item.id}
             removeClippedSubviews={true}
+						onRefresh={() => {
+							_onRefresh();
+						}}
+						refreshing={loading}
           />
         </View>
       )}
