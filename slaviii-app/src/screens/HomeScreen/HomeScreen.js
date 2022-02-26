@@ -6,12 +6,32 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import styles from "./styles";
 import { firebase } from "../../firebase/config";
 // import { getDocs, query, where, orderBy } from "firebase/firestore";
 
 export default function HomeScreen(props) {
+  const { navigation } = props;
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Profile");
+          }}
+        >
+          <Image
+            style={{ width: 35, height: 35, marginRight: 10 }}
+            source={require("../../../assets/adaptive-icon.png")}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   const [entityText, setEntityText] = useState("");
   const [entities, setEntities] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +51,7 @@ export default function HomeScreen(props) {
     //   );
     // });
 
-     entityInstance
+    entityInstance
       .where("authorID", "==", userID)
       // .orderBy("createdAt", "desc")
       .onSnapshot(

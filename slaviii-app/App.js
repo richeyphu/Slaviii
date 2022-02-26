@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import { firebase } from "./src/firebase/config";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { LoginScreen, HomeScreen, RegistrationScreen } from "./src/screens";
+import {
+  LoginScreen,
+  HomeScreen,
+  RegistrationScreen,
+  ProfileScreen,
+} from "./src/screens";
 import { decode, encode } from "base-64";
 
 if (!global.btoa) {
@@ -20,10 +25,10 @@ export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const usersRef = firebase.firestore().collection("users");
+    const usersInstance = firebase.firestore().collection("users");
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        usersRef
+        usersInstance
           .doc(user.uid)
           .get()
           .then((document) => {
@@ -48,9 +53,12 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          <Stack.Screen name="Home">
-            {(props) => <HomeScreen {...props} extraData={user} />}
-          </Stack.Screen>
+          <>
+            <Stack.Screen name="Home">
+              {(props) => <HomeScreen {...props} extraData={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
