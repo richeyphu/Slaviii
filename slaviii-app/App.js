@@ -35,12 +35,15 @@ export default function App() {
             const userData = document.data();
             setLoading(false);
             setUser(userData);
+            // alert("User logged in");
           })
           .catch((error) => {
             setLoading(false);
           });
       } else {
         setLoading(false);
+        setUser(null);
+        // alert("User logged out");
       }
     });
   }, []);
@@ -49,23 +52,29 @@ export default function App() {
     return <></>;
   }
 
+  const AuthStack = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Registration" component={RegistrationScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+  const AppStack = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Home">
+          {(props) => <HomeScreen {...props} extraData={user} />}
+        </Stack.Screen>
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      </Stack.Navigator>
+    );
+  };
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {user ? (
-          <>
-            <Stack.Screen name="Home">
-              {(props) => <HomeScreen {...props} extraData={user} />}
-            </Stack.Screen>
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Registration" component={RegistrationScreen} />
-          </>
-        )}
-      </Stack.Navigator>
+      {user ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

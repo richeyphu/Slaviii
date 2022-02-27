@@ -1,8 +1,30 @@
 import React, { Component } from "react";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import styles from "./styles";
+import { firebase } from "../../firebase/config";
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
+  const signOutUser = async () => {
+    try {
+      await firebase.auth().signOut();
+      // navigation.navigate("Login");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const confirmSignOutAlert = () =>
+    Alert.alert("Log out", "Are you sure you want to log out?", [
+      {
+        text: "Cancel",
+        onPress: () => {
+          /*Do nothing*/
+        },
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => signOutUser() },
+    ]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}></View>
@@ -20,8 +42,13 @@ export default function ProfileScreen() {
             electram expetendis, omittam deseruisse consequuntur ius an,
           </Text>
 
-          <TouchableOpacity style={styles.buttonContainer}>
-            <Text>Opcion 1</Text>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => {
+              confirmSignOutAlert();
+            }}
+          >
+            <Text>Sign out</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonContainer}>
             <Text>Opcion 2</Text>
