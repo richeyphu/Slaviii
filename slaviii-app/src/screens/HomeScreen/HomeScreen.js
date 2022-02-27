@@ -11,6 +11,8 @@ import {
 import styles from "./styles";
 import { firebase } from "../../firebase/config";
 // import { getDocs, query, where, orderBy } from "firebase/firestore";
+import { Feather } from "@expo/vector-icons";
+import { FloatingAction } from "react-native-floating-action";
 
 export default function HomeScreen(props) {
   const { navigation } = props;
@@ -31,6 +33,23 @@ export default function HomeScreen(props) {
       ),
     });
   }, [navigation]);
+
+  const actions = [
+    {
+      text: "Add Pet Profile",
+      icon: <Feather name="user-plus" size={24} color="black" />,
+      name: "bt_pet",
+      position: 1,
+      color: "#C84132"
+    },
+    {
+      text: "Add Alarm",
+      icon: <Feather name="bell" size={24} color="black" />,
+      name: "bt_alarm",
+      position: 2,
+      color: "#C84132"
+    },
+  ];
 
   const [entityText, setEntityText] = useState("");
   const [entities, setEntities] = useState([]);
@@ -144,6 +163,18 @@ export default function HomeScreen(props) {
           />
         </View>
       )}
+      <FloatingAction
+        color="#C84132"
+        actions={actions}
+        onPressItem={(name) => {
+          console.log(`selected button: ${name}`);
+          if (name === "bt_pet") {
+            navigation.navigate("AddPetProfile");
+          } else if (name === "bt_alarm") {
+            navigation.navigate("AddAlarm");
+          }
+        }}
+      />
     </View>
   );
 }

@@ -8,6 +8,8 @@ import {
   HomeScreen,
   RegistrationScreen,
   ProfileScreen,
+  AddAlarmScreen,
+  AddPetProfileScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 
@@ -68,6 +70,16 @@ export default function App() {
           {(props) => <HomeScreen {...props} extraData={user} />}
         </Stack.Screen>
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen
+          name="AddAlarm"
+          component={AddAlarmScreen}
+          options={{ title: "Add Alarm" }}
+        />
+        <Stack.Screen
+          name="AddPetProfile"
+          component={AddPetProfileScreen}
+          options={{ title: "Add Pet Profile" }}
+        />
       </Stack.Navigator>
     );
   };
