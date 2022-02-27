@@ -40,14 +40,14 @@ export default function HomeScreen(props) {
       icon: <Feather name="user-plus" size={24} color="black" />,
       name: "bt_pet",
       position: 1,
-      color: "#C84132"
+      color: "#C84132",
     },
     {
       text: "Add Alarm",
       icon: <Feather name="bell" size={24} color="black" />,
       name: "bt_alarm",
       position: 2,
-      color: "#C84132"
+      color: "#C84132",
     },
   ];
 
