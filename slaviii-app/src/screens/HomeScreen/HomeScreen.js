@@ -34,17 +34,17 @@ export default function HomeScreen(props) {
     });
   }, [navigation]);
 
-  const actions = [
+  const homeActions = [
     {
       text: "Add Pet Profile",
-      icon: <Feather name="user-plus" size={24} color="black" />,
+      icon: <Feather name="user-plus" size={24} color="white" />,
       name: "bt_pet",
       position: 1,
       color: "#C84132",
     },
     {
       text: "Add Alarm",
-      icon: <Feather name="bell" size={24} color="black" />,
+      icon: <Feather name="bell" size={24} color="white" />,
       name: "bt_alarm",
       position: 2,
       color: "#C84132",
@@ -165,7 +165,7 @@ export default function HomeScreen(props) {
       )}
       <FloatingAction
         color="#C84132"
-        actions={actions}
+        actions={homeActions}
         onPressItem={(name) => {
           console.log(`selected button: ${name}`);
           if (name === "bt_pet") {
