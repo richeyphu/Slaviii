@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -13,6 +13,36 @@ import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 
 export default function ProfileScreen({ navigation }) {
+  const [fullname, setFullname] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+
+  // const { userID } = route.params;
+  const userID = firebase.auth().currentUser.uid;
+  const userInstance = firebase.firestore().collection("users");
+
+  const getName = () => {
+    setLoading(true);
+
+    userInstance.where("id", "==", userID).onSnapshot(
+      (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const user = doc.data();
+          // alert(user.fullName);
+          setFullname(user.fullName);
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getName();
+  }, []);
+
   const signOutUser = async () => {
     try {
       await firebase.auth().signOut();
@@ -35,7 +65,7 @@ export default function ProfileScreen({ navigation }) {
     ]);
 
   const petList = {
-    calls: [
+    data: [
       {
         id: 1,
         name: "Mark Doe",
@@ -157,13 +187,13 @@ export default function ProfileScreen({ navigation }) {
             style={styles.avatar}
             source={require("../../../assets/icon.png")}
           />
-          <Text style={styles.name}>John Doe</Text>
+          <Text style={styles.name}>{fullname}</Text>
         </View>
       </View>
       <View style={{ flex: 2 }}>
         <FlatList
           extraData={petList}
-          data={petList.calls}
+          data={petList.data}
           keyExtractor={(item) => {
             return item.id;
           }}
@@ -174,7 +204,7 @@ export default function ProfileScreen({ navigation }) {
         color="#C84132"
         actions={profileActions}
         onPressItem={(name) => {
-          console.log(`selected button: ${name}`);
+          // console.log(`selected button: ${name}`);
           if (name === "bt_logout") {
             confirmSignOutAlert();
           } else if (name === "bt_editprofile") {

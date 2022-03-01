@@ -167,7 +167,7 @@ export default function HomeScreen(props) {
         color="#C84132"
         actions={homeActions}
         onPressItem={(name) => {
-          console.log(`selected button: ${name}`);
+          // console.log(`selected button: ${name}`);
           if (name === "bt_pet") {
             navigation.navigate("AddPetProfile");
           } else if (name === "bt_alarm") {
