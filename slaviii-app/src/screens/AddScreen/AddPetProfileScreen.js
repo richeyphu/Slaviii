@@ -20,10 +20,12 @@ import * as Yup from "yup";
 import * as ImagePicker from "expo-image-picker";
 import storage from "firebase/storage";
 import * as Progress from "react-native-progress";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import moment from "moment";
 
 const ValidateSchema = Yup.object().shape({
   name: Yup.string().required("Please input name"),
-  dob: Yup.string().required("Please input birthday"),
+  // dob: Yup.string().required("Please input birthday"),
   type: Yup.string().required("Please input type"),
   species: Yup.string().required("Please input species"),
 });
@@ -32,6 +34,19 @@ const AddPetProfileScreen = () => {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
+
+  const [date, setDate] = useState(null);
+  const [show, setShow] = useState(false);
+
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+  };
+
+  const showDatepicker = () => {
+    setShow(true);
+  };
 
   const selectImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -117,11 +132,29 @@ const AddPetProfileScreen = () => {
 
               <Item fixedLabel error={errors.dob && touched.dob ? true : false}>
                 <Label>Birthday</Label>
-                <Input
-                  value={values.dob}
-                  onChangeText={handleChange("dob")}
-                  onBlur={handleBlur("dob")}
-                />
+                <TouchableOpacity onPress={showDatepicker}>
+                  <View pointerEvents="none">
+                    <Input
+                      disabled
+                      onValueChange={handleChange("dob")}
+                      onBlur={handleBlur("dob")}
+                      placeholder="Select a date"
+                      value={
+                        date ? moment(date).format("DD/MM/YYYY") : values.dob
+                      }
+                    />
+                  </View>
+                </TouchableOpacity>
+                {show && (
+                  <DateTimePicker
+                    value={new Date()}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChangeDate}
+                    maximumDate={new Date()}
+                  />
+                )}
                 {errors.dob && touched.dob && <Icon name="close-circle" />}
               </Item>
               {errors.dob && touched.dob && (
