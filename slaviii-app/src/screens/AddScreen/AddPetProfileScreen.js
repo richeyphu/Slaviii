@@ -25,7 +25,7 @@ import moment from "moment";
 
 const ValidateSchema = Yup.object().shape({
   name: Yup.string().required("Please input name"),
-  // dob: Yup.string().required("Please input birthday"),
+  dob: Yup.string().required("Please input birthday"),
   type: Yup.string().required("Please input type"),
   species: Yup.string().required("Please input species"),
 });
@@ -109,6 +109,7 @@ const AddPetProfileScreen = () => {
             handleSubmit,
             isSubmitting,
             setSubmitting,
+            setFieldValue,
           }) => (
             <Form>
               {/* กำหนดให้มีเส้นสีแดงถ้าผู้ใช้ไม่กรอกข้อมูลชื่อ */}
@@ -136,7 +137,7 @@ const AddPetProfileScreen = () => {
                   <View pointerEvents="none">
                     <Input
                       disabled
-                      onValueChange={handleChange("dob")}
+                      onChangeText={handleChange("dob")}
                       onBlur={handleBlur("dob")}
                       placeholder="Select a date"
                       value={
@@ -151,7 +152,10 @@ const AddPetProfileScreen = () => {
                     mode="date"
                     is24Hour={true}
                     display="default"
-                    onChange={onChangeDate}
+                    onChange={(event, selectedDate) => {
+                      onChangeDate(event, selectedDate);
+                      setFieldValue("dob", selectedDate);
+                    }}
                     maximumDate={new Date()}
                   />
                 )}
