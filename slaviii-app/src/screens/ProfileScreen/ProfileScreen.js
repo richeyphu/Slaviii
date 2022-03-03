@@ -13,8 +13,8 @@ import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 
 export default function ProfileScreen({ navigation }) {
-  const [fullname, setFullname] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const [fullname, setFullname] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // const { userID } = route.params;
   const userID = firebase.auth().currentUser.uid;

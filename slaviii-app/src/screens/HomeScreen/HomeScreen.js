@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   FlatList,
   Keyboard,
@@ -17,7 +17,7 @@ import { FloatingAction } from "react-native-floating-action";
 export default function HomeScreen(props) {
   const { navigation } = props;
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
