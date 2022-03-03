@@ -34,7 +34,7 @@ const AddPetProfileScreen = () => {
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
+    setShow(false);
     setDate(currentDate);
   };
 
@@ -79,7 +79,6 @@ const AddPetProfileScreen = () => {
           </TouchableOpacity>
         </View>
         <Formik
-          // ค่าเริ่มต้นของข้อมูล โดยกำหนดให้ตรงกับกับ backend
           initialValues={{
             name: "",
             dob: "",
@@ -87,7 +86,7 @@ const AddPetProfileScreen = () => {
             species: "",
           }}
           validationSchema={addPetProfileSchema}
-          // เมื่อคลิกปุ่ม Register ให้ทำงานส่วนนี้
+          // Run this when click 'Save'
           onSubmit={async (values, { setSubmitting }) => {
             alert(JSON.stringify(values));
           }}
