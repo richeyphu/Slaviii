@@ -15,7 +15,6 @@ import {
   View,
 } from "native-base";
 import { Formik } from "formik";
-import * as Yup from "yup";
 
 import * as ImagePicker from "expo-image-picker";
 import storage from "firebase/storage";
