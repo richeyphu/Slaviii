@@ -1,17 +1,28 @@
 import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View, LogBox } from "react-native";
+import {
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  LogBox,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./styles";
 import { firebase } from "../../firebase/config";
 
-LogBox.ignoreLogs(['Setting a timer']);
+LogBox.ignoreLogs(["Setting a timer"]);
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onFooterLinkPress = () => {
+  const onSignupPress = () => {
     navigation.navigate("Registration");
+  };
+
+  const onForgotPasswordPress = () => {
+    navigation.navigate("ForgotPassword");
   };
 
   const onLoginPress = () => {
@@ -76,8 +87,14 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Don't have an account?{" "}
-            <Text onPress={onFooterLinkPress} style={styles.footerLink}>
+            <Text onPress={onSignupPress} style={styles.footerLink}>
               Sign up
+            </Text>
+          </Text>
+          <Text style={styles.footerText}>
+            {"\n"}Forgot Password?{" "}
+            <Text onPress={onForgotPasswordPress} style={styles.footerLink}>
+              Reset
             </Text>
           </Text>
         </View>

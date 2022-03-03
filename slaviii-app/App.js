@@ -5,8 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
   LoginScreen,
-  HomeScreen,
   RegistrationScreen,
+  ForgotPasswordScreen,
+  HomeScreen,
   ProfileScreen,
   AddAlarmScreen,
   AddPetProfileScreen,
@@ -59,6 +60,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Registration" component={RegistrationScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       </Stack.Navigator>
     );
   };
