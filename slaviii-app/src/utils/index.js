@@ -3,6 +3,7 @@ import {
   signupValidationSchema,
   passwordResetSchema,
   addPetProfileSchema,
+  addAlarmSchema,
 } from "./schemas";
 
 export {
@@ -10,4 +11,5 @@ export {
   signupValidationSchema,
   passwordResetSchema,
   addPetProfileSchema,
+  addAlarmSchema,
 };

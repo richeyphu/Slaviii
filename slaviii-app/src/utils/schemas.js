@@ -26,3 +26,10 @@ export const addPetProfileSchema = Yup.object().shape({
   type: Yup.string().required("Please input type"),
   species: Yup.string().required("Please input species"),
 });
+
+export const addAlarmSchema = Yup.object().shape({
+  time: Yup.string().required("Please select alarm time"),
+  name: Yup.string().required("Please input alarm name"),
+  food: Yup.string().required("Please input food name"),
+  pet: Yup.string().required("Please select your pet"),
+});
