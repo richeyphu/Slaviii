@@ -1,18 +1,3 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React from 'react'
-
-// const ForgotPasswordScreen = () => {
-//   return (
-//     <View>
-//       <Text>ForgotPasswordScreen</Text>
-//     </View>
-//   )
-// }
-
-// export default ForgotPasswordScreen
-
-// const styles = StyleSheet.create({})
-
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput, Button } from "react-native";
 
