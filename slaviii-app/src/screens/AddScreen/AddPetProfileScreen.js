@@ -23,12 +23,7 @@ import * as Progress from "react-native-progress";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 
-const ValidateSchema = Yup.object().shape({
-  name: Yup.string().required("Please input name"),
-  dob: Yup.string().required("Please input birthday"),
-  type: Yup.string().required("Please input type"),
-  species: Yup.string().required("Please input species"),
-});
+import { addPetProfileSchema } from "../../utils";
 
 const AddPetProfileScreen = () => {
   const [image, setImage] = useState(null);
@@ -92,7 +87,7 @@ const AddPetProfileScreen = () => {
             type: "",
             species: "",
           }}
-          validationSchema={ValidateSchema}
+          validationSchema={addPetProfileSchema}
           // เมื่อคลิกปุ่ม Register ให้ทำงานส่วนนี้
           onSubmit={async (values, { setSubmitting }) => {
             alert(JSON.stringify(values));
