@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./styles";
-import { firebase } from "../../firebase/config";
+import { firebase } from "@/src/firebase/config";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -60,7 +60,7 @@ export default function LoginScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/adaptive-icon.png")}
+          source={require("@/assets/adaptive-icon.png")}
         />
         <TextInput
           style={styles.input}

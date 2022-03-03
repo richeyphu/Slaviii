@@ -10,6 +10,13 @@ module.exports = function (api) {
           path: ".env",
         },
       ],
+      [
+        "babel-plugin-root-import",
+        {
+          rootPathSuffix: "./",
+          rootPathPrefix: "@/",
+        },
+      ],
     ],
   };
 };

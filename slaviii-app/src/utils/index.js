@@ -3,7 +3,7 @@ import {
   signupValidationSchema,
   passwordResetSchema,
   addPetProfileSchema,
-} from "./schema";
+} from "./schemas";
 
 export {
   loginValidationSchema,

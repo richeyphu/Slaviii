@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import styles from "./styles";
-import { firebase } from "../../firebase/config";
+import { firebase } from "@/src/firebase/config";
 import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 
@@ -185,7 +185,7 @@ export default function ProfileScreen({ navigation }) {
           {/* <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar1.png'}}/> */}
           <Image
             style={styles.avatar}
-            source={require("../../../assets/icon.png")}
+            source={require("@/assets/icon.png")}
           />
           <Text style={styles.name}>{fullname}</Text>
         </View>

@@ -23,7 +23,7 @@ import * as Progress from "react-native-progress";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 
-import { addPetProfileSchema } from "../../utils";
+import { addPetProfileSchema } from "@/src/utils";
 
 const AddPetProfileScreen = () => {
   const [image, setImage] = useState(null);
@@ -74,7 +74,7 @@ const AddPetProfileScreen = () => {
             ) : (
               <Image
                 style={styles.avatar}
-                source={require("../../../assets/adaptive-icon.png")}
+                source={require("@/assets/adaptive-icon.png")}
               />
             )}
           </TouchableOpacity>

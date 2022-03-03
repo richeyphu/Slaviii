@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import styles from "./styles";
-import { firebase } from "../../firebase/config";
+import { firebase } from "@/src/firebase/config";
 // import { getDocs, query, where, orderBy } from "firebase/firestore";
 import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
@@ -27,7 +27,7 @@ export default function HomeScreen(props) {
         >
           <Image
             style={{ width: 35, height: 35, marginRight: 10 }}
-            source={require("../../../assets/adaptive-icon.png")}
+            source={require("@/assets/adaptive-icon.png")}
           />
         </TouchableOpacity>
       ),
