@@ -14,4 +14,10 @@ export default StyleSheet.create({
     marginBottom: 10,
     backgroundColor: "darkgray",
   },
+  timeLabel: {
+    fontSize: 50,
+    fontWeight: "bold",
+    marginTop: 30,
+    marginBottom: 30,
+  },
 });
