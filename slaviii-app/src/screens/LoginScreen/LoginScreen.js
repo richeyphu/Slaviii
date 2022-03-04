@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Image,
   Text,
@@ -11,9 +11,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
 
+import { userStoreContext } from "@/src/contexts/UserContext";
+
 LogBox.ignoreLogs(["Setting a timer"]);
 
 export default function LoginScreen({ navigation }) {
+  const userStore = useContext(userStoreContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -35,12 +39,15 @@ export default function LoginScreen({ navigation }) {
         usersRef
           .doc(uid)
           .get()
-          .then((firestoreDocument) => {
+          .then(async (firestoreDocument) => {
             if (!firestoreDocument.exists) {
               alert("User does not exist anymore.");
               return;
             }
             const user = firestoreDocument.data();
+
+            userStore.updateProfile(user);
+
             navigation.navigate("Home", { user: user });
           })
           .catch((error) => {

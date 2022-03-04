@@ -16,6 +16,8 @@ import {
 } from "./src/screens";
 import { decode, encode } from "base-64";
 
+import UserStoreProvider from "./src/contexts/UserContext";
+
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -95,9 +97,11 @@ export default function App() {
 
   return (
     // <NativeBaseProvider>
-    <NavigationContainer>
-      {user ? <AppStack /> : <AuthStack />}
-    </NavigationContainer>
+    <UserStoreProvider>
+      <NavigationContainer>
+        {user ? <AppStack /> : <AuthStack />}
+      </NavigationContainer>
+    </UserStoreProvider>
     // </NativeBaseProvider>
   );
 }

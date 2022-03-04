@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
 import {
   FlatList,
   Keyboard,
@@ -14,8 +14,11 @@ import { firebase } from "@/src/firebase/config";
 import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 
+import { userStoreContext } from "@/src/contexts/UserContext";
+
 export default function HomeScreen(props) {
   const { navigation } = props;
+  const userStore = useContext(userStoreContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -57,6 +60,9 @@ export default function HomeScreen(props) {
 
   const entityInstance = firebase.firestore().collection("entities");
   const userID = props.extraData.id;
+  const userData = userStore.profile;
+  // const [userID, setUserID] = useState(null);
+  // alert(JSON.stringify(userData));
 
   const getEntities = () => {
     setLoading(true);
@@ -96,8 +102,12 @@ export default function HomeScreen(props) {
   };
 
   useEffect(() => {
+    // if (userData) {
+    //   setUserID(userData.id);
+    // }
+
     getEntities();
-  }, []);
+  }, [userData]);
 
   const onAddButtonPress = () => {
     if (entityText && entityText.length > 0) {

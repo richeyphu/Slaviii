@@ -17,6 +17,7 @@ import {
 import { Formik } from "formik";
 
 import * as ImagePicker from "expo-image-picker";
+import { firebase } from "@/src/firebase/config";
 import storage from "firebase/storage";
 import * as Progress from "react-native-progress";
 import DateTimePicker from "@react-native-community/datetimepicker";
