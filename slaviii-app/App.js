@@ -12,6 +12,7 @@ import {
   ProfileScreen,
   AddAlarmScreen,
   AddPetProfileScreen,
+  AnnoucementScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 
@@ -87,15 +88,16 @@ export default function App() {
           component={AddPetProfileScreen}
           options={{ title: "Add Pet Profile" }}
         />
+        <Stack.Screen name="Announcement" component={AnnoucementScreen} />
       </Stack.Navigator>
     );
   };
 
   return (
     // <NativeBaseProvider>
-      <NavigationContainer>
-        {user ? <AppStack /> : <AuthStack />}
-      </NavigationContainer>
+    <NavigationContainer>
+      {user ? <AppStack /> : <AuthStack />}
+    </NavigationContainer>
     // </NativeBaseProvider>
   );
 }
