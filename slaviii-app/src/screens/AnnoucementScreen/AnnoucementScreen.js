@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, Image } from "react-native";
+import React, { useEffect, useState, useLayoutEffect } from "react";
+import { FlatList, Image, TouchableOpacity, Alert } from "react-native";
 
 import { Text, View } from "native-base";
 
@@ -8,8 +8,29 @@ import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
 import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
+import Constants from "expo-constants";
 
-export default function HomeScreen() {
+export default function AnnoucementScreen({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={{ marginRight: 12 }}
+          onPress={() => {
+            Alert.alert(
+              "Slaviii Info",
+              "Version: " +
+                Constants.manifest.version +
+                "\n\nMade with ❤️ by PUM Team"
+            );
+          }}
+        >
+          <Feather name="info" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
   // const [annoucementText, setAnnoucementText] = useState("");
   const [entities, setEntities] = useState([]);
   const [loading, setLoading] = useState(false);
