@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
-
+import { Text } from "react-native";
+import { View, Button, Input, Item, Label, Icon } from "native-base";
 import { Formik } from "formik";
 import { sendPasswordResetEmail } from "firebase/auth";
 
@@ -31,7 +31,7 @@ export default function ForgotPasswordScreen({ navigation }) {
       alert("Success: Password Reset Email sent.");
       navigation.navigate("Login");
     } catch (error) {
-			alert(error)
+      alert(error);
       setErrorState(error.message);
     }
   };
@@ -56,39 +56,62 @@ export default function ForgotPasswordScreen({ navigation }) {
         }) => (
           <>
             {/* Email input field */}
-            <TextInput
-              name="email"
-              leftIconName="email"
-              placeholder="Enter email"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              textContentType="emailAddress"
-              value={values.email}
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
-            />
+
+            <Item
+              stackedLabel
+              error={errors.email && touched.email ? true : false}
+            >
+              <Label>Email</Label>
+              <Input
+                name="email"
+                placeholder="Enter email"
+                keyboardType="email-address"
+                textContentType="emailAddress"
+                autoCapitalize="none"
+                leftIconName="email"
+                value={values.email}
+                onChangeText={handleChange("email")}
+                onBlur={handleBlur("email")}
+              />
+            </Item>
             {/* Display Screen Error Mesages */}
             {errorState == "" ? (
-              errors.email && touched.email && <Text>{errors.email}</Text>
+              errors.email &&
+              touched.email && (
+                <Item underline={false}>
+                  <Label style={{ color: "red" }}>{errors.email}</Label>
+                </Item>
+              )
             ) : (
-              <Text>{errorState}</Text>
+              <Item underline={false}>
+                <Label style={{ color: "red" }}>{errorState}</Label>
+              </Item>
             )}
             {/* Password Reset Send Email button */}
             <Button
               style={styles.button}
               onPress={handleSubmit}
-              title="Send Reset Email"
-            />
+              backgroundColor="salmon"
+            >
+              <Text
+                style={{ color: "white", fontSize: 20, fontWeight: "bold" }}
+              >
+                Send Reset Email
+              </Text>
+            </Button>
           </>
         )}
       </Formik>
       {/* Button to navigate to Login screen */}
       <Button
-        style={styles.borderlessButtonContainer}
-        borderless
-        title="Go back to Login"
+        style={styles.button}
         onPress={() => navigation.navigate("Login")}
-      />
+        backgroundColor="salmon"
+      >
+        <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
+          Go back to Login
+        </Text>
+      </Button>
     </View>
   );
 }
