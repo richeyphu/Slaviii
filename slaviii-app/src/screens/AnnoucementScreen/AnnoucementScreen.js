@@ -7,7 +7,6 @@ import styles from "./styles";
 
 import { firebase } from "@/src/firebase/config";
 import { Feather } from "@expo/vector-icons";
-import { FloatingAction } from "react-native-floating-action";
 import Constants from "expo-constants";
 
 export default function AnnoucementScreen({ navigation }) {
@@ -32,18 +31,18 @@ export default function AnnoucementScreen({ navigation }) {
   }, [navigation]);
 
   // const [annoucementText, setAnnoucementText] = useState("");
-  const [entities, setEntities] = useState([]);
+  const [annoucements, setAnnoucements] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const annoucementInstance = firebase.firestore().collection("annoucements");
 
-  const getEntities = () => {
+  const getAnnoucements = () => {
     setLoading(true);
 
     // const annoucementQuery = query(annoucementInstance);
-    // getDocs(annoucementQuery).then((entities) => {
-    //   setEntities(
-    // entities.docs.map((annoucement) => {
+    // getDocs(annoucementQuery).then((annoucements) => {
+    //   setAnnoucements(
+    // annoucements.docs.map((annoucement) => {
     //   return { ...annoucement.data() };
     // })
     //   );
@@ -51,17 +50,17 @@ export default function AnnoucementScreen({ navigation }) {
 
     annoucementInstance.onSnapshot(
       (querySnapshot) => {
-        const newEntities = [];
+        const newAnnoucements = [];
         querySnapshot.forEach((doc) => {
           const annoucement = doc.data();
           annoucement.id = doc.id;
-          newEntities.push(annoucement);
+          newAnnoucements.push(annoucement);
         });
         // orderBy("createdAt", "desc")
-        newEntities.sort((a, b) => {
+        newAnnoucements.sort((a, b) => {
           return b.createdAt - a.createdAt;
         });
-        setEntities(newEntities);
+        setAnnoucements(newAnnoucements);
       },
       (error) => {
         console.log(error);
@@ -72,7 +71,7 @@ export default function AnnoucementScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getEntities();
+    getAnnoucements();
   }, []);
 
   //   const onAddButtonPress = () => {
@@ -94,7 +93,7 @@ export default function AnnoucementScreen({ navigation }) {
   //     }
   //   };
 
-  const renderannoucement = ({ item, index }) => {
+  const renderAnnoucement = ({ item, index }) => {
     return (
       <View style={styles.annoucementContainer}>
         <Text style={styles.annoucementText}>
@@ -105,7 +104,7 @@ export default function AnnoucementScreen({ navigation }) {
   };
 
   const _onRefresh = () => {
-    getEntities();
+    getAnnoucements();
   };
 
   return (
@@ -131,11 +130,11 @@ export default function AnnoucementScreen({ navigation }) {
         <Image style={styles.logo} source={require("@/assets/icon.png")} />
         <Text style={styles.title}>Welcome to Slaviii</Text>
       </View>
-      {entities && (
+      {annoucements && (
         <View style={styles.listContainer}>
           <FlatList
-            data={entities}
-            renderItem={renderannoucement}
+            data={annoucements}
+            renderItem={renderAnnoucement}
             keyExtractor={(item) => item.id}
             removeClippedSubviews={true}
             onRefresh={() => {
