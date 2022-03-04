@@ -207,7 +207,6 @@ const AddPetProfileScreen = () => {
                 large
                 style={{ marginTop: 30, backgroundColor: "salmon" }}
                 onPress={() => {
-                  alert(JSON.stringify(values));
                   handleSubmit();
                   // setSubmitting(false);
                 }}
