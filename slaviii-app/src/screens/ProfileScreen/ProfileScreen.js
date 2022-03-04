@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useContext } from "react";
 import {
   Text,
   View,
@@ -12,7 +12,11 @@ import { firebase } from "@/src/firebase/config";
 import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 
+import { userStoreContext } from "@/src/contexts/UserContext";
+
 export default function ProfileScreen({ navigation }) {
+  const userStore = useContext(userStoreContext);
+
   const [fullname, setFullname] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -45,6 +49,7 @@ export default function ProfileScreen({ navigation }) {
 
   const signOutUser = async () => {
     try {
+      userStore.updateProfile(null);
       await firebase.auth().signOut();
       // navigation.navigate("Login");
     } catch (e) {
@@ -183,10 +188,7 @@ export default function ProfileScreen({ navigation }) {
       <View style={styles.header}>
         <View style={styles.headerContent}>
           {/* <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar1.png'}}/> */}
-          <Image
-            style={styles.avatar}
-            source={require("@/assets/icon.png")}
-          />
+          <Image style={styles.avatar} source={require("@/assets/icon.png")} />
           <Text style={styles.name}>{fullname}</Text>
         </View>
       </View>

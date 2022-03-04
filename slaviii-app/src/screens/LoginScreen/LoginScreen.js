@@ -45,7 +45,8 @@ export default function LoginScreen({ navigation }) {
               return;
             }
             const user = firestoreDocument.data();
-
+            
+            // update profile by context (Global State)
             userStore.updateProfile(user);
 
             navigation.navigate("Home", { user: user });
