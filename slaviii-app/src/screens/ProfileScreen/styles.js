@@ -6,7 +6,7 @@ export default StyleSheet.create({
   },
   header: {
     flex: 1,
-    backgroundColor: "#20B2AA",
+    backgroundColor: "salmon",
   },
   headerContent: {
     padding: 30,

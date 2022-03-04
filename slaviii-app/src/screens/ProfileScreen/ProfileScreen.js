@@ -211,8 +211,8 @@ export default function ProfileScreen({ navigation }) {
             alert("Edit Profile");
             // navigation.navigate("EditProfile");
           } else if (name === "bt_annoucement") {
-            alert("Announcement");
-            // navigation.navigate("Announcement");
+            // alert("Announcement");
+            navigation.navigate("Announcement");
           }
         }}
       />
