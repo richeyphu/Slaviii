@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { firebase } from "./src/firebase/config";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { NativeBaseProvider } from "native-base";
 import {
   LoginScreen,
   RegistrationScreen,
@@ -91,8 +92,10 @@ export default function App() {
   };
 
   return (
-    <NavigationContainer>
-      {user ? <AppStack /> : <AuthStack />}
-    </NavigationContainer>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        {user ? <AppStack /> : <AuthStack />}
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }
