@@ -146,8 +146,12 @@ const AddPetProfileScreen = () => {
                     is24Hour={true}
                     display="default"
                     onChange={(event, selectedDate) => {
-                      onChangeDate(event, selectedDate);
-                      setFieldValue("dob", selectedDate);
+                      if (selectedDate) {
+                        onChangeDate(event, selectedDate);
+                        setFieldValue("dob", selectedDate);
+                      } else {
+                        setShow(false);
+                      }
                     }}
                     maximumDate={new Date()}
                   />
@@ -203,6 +207,7 @@ const AddPetProfileScreen = () => {
                 large
                 style={{ marginTop: 30, backgroundColor: "salmon" }}
                 onPress={() => {
+                  alert(JSON.stringify(values));
                   handleSubmit();
                   // setSubmitting(false);
                 }}
