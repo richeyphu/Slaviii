@@ -45,78 +45,87 @@ const AddPetProfileScreen = ({ navigation }) => {
     .collection("users/" + userID + "/pets");
 
   const onSaveButtonPress = async (values) => {
-    const { uri } = image;
-    const filename = uri.substring(uri.lastIndexOf("/") + 1);
-    const uploadUri = Platform.OS === "ios" ? uri.replace("file://", "") : uri;
-
     setUploading(true);
-    setTransferred(0);
 
-    // userPetInstance
-    // .add(values)
-    // .catch((error) => {
-    //   alert(error);
-    // });
+    if (image) {
+      const { uri } = image;
+      const filename = uri.substring(uri.lastIndexOf("/") + 1);
+      const uploadUri =
+        Platform.OS === "ios" ? uri.replace("file://", "") : uri;
 
-    // alert(JSON.stringify(values));
+      setTransferred(0);
 
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uploadUri, true);
-      xhr.send(null);
-    });
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function (e) {
+          console.log(e);
+          reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", uploadUri, true);
+        xhr.send(null);
+      });
 
-    const uploadRef = firebase.storage().ref(filename);
-    const uploadTask = uploadRef.put(blob);
+      const uploadRef = firebase.storage().ref(filename);
+      const uploadTask = uploadRef.put(blob);
 
-    // uploadTask
-    //   .then(() => {
-    //     console.log("Image uploaded to the bucket!");
-    //   })
-    //   .catch((e) => console.log("uploading image error => ", e));
+      // uploadTask
+      //   .then(() => {
+      //     console.log("Image uploaded to the bucket!");
+      //   })
+      //   .catch((e) => console.log("uploading image error => ", e));
 
-    // set progress state
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 10000
-        );
-        setTransferred(progress);
-      },
-      (error) => {
-        console.log(error);
+      // set progress state
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+          );
+          setTransferred(progress);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      try {
+        await uploadTask;
+      } catch (e) {
+        console.error(e);
       }
-    );
 
-    try {
-      await uploadTask;
-    } catch (e) {
-      console.error(e);
-    }
-
-    await uploadRef.getDownloadURL().then((url) => {
+      await uploadRef.getDownloadURL().then((url) => {
+        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        const data = {
+          name: values.name,
+          dob: values.dob,
+          type: values.type,
+          species: values.species,
+          image: url,
+          createdAt: timestamp,
+        };
+        userPetInstance.add(data).catch((error) => {
+          alert(error);
+        });
+      });
+    } else {
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
       const data = {
         name: values.name,
         dob: values.dob,
         type: values.type,
         species: values.species,
-        image: url,
+        image: null,
         createdAt: timestamp,
       };
       userPetInstance.add(data).catch((error) => {
         alert(error);
       });
-    });
+    }
 
     setUploading(false);
     setImage(null);
