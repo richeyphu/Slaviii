@@ -57,12 +57,13 @@ export default function HomeScreen(props) {
   const [entityText, setEntityText] = useState("");
   const [entities, setEntities] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [userID, setUserID] = useState(null);
+  // const [userID, setUserID] = useState(null);
 
   const entityInstance = firebase.firestore().collection("entities");
   
+  const userID = firebase.auth().currentUser.uid;
   // const userID = props.extraData.id;
-  const userData = userStore.profile;
+  // const userData = userStore.profile;
   // alert(JSON.stringify(userData));
 
   const getEntities = () => {
@@ -103,12 +104,12 @@ export default function HomeScreen(props) {
   };
 
   useEffect(() => {
-    if (userData) {
-      setUserID(userData.id);
-    }
+    // if (userData) {
+    //   setUserID(userData.id);
+    // }
 
     getEntities();
-  }, [userData, userID]);
+  }, [/*userData*/, userID]);
 
   const onAddButtonPress = () => {
     if (entityText && entityText.length > 0) {
