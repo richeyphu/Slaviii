@@ -18,11 +18,15 @@ export default function ProfileScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
 
   const [fullname, setFullname] = useState([]);
+  const [petList, setPetList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // const { userID } = route.params;
   const userID = firebase.auth().currentUser.uid;
   const userInstance = firebase.firestore().collection("users");
+  const userPetInstance = firebase
+    .firestore()
+    .collection("users/" + userID + "/pets");
 
   const getName = () => {
     setLoading(true);
@@ -43,8 +47,29 @@ export default function ProfileScreen({ navigation }) {
     setLoading(false);
   };
 
+  const getPets = () => {
+    setLoading(true);
+
+    userPetInstance.onSnapshot(
+      async (querySnapshot) => {
+        setPetList(
+          await querySnapshot.docs.map((doc) => {
+            return { ...doc.data(), id: doc.id };
+          })
+        );
+        // alert(JSON.stringify(petList));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    setLoading(false);
+  };
+
   useEffect(() => {
     getName();
+    getPets();
   }, []);
 
   const signOutUser = async () => {
@@ -68,71 +93,6 @@ export default function ProfileScreen({ navigation }) {
       },
       { text: "OK", onPress: () => signOutUser() },
     ]);
-
-  const petList = {
-    data: [
-      {
-        id: 1,
-        name: "Mark Doe",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar7.png",
-      },
-      {
-        id: 2,
-        name: "Clark Man",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar6.png",
-      },
-      {
-        id: 3,
-        name: "Jaden Boor",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      },
-      {
-        id: 4,
-        name: "Srick Tree",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar4.png",
-      },
-      {
-        id: 5,
-        name: "Erick Doe",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar3.png",
-      },
-      {
-        id: 6,
-        name: "Francis Doe",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar2.png",
-      },
-      {
-        id: 8,
-        name: "Matilde Doe",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-      },
-      {
-        id: 9,
-        name: "John Doe",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar4.png",
-      },
-      {
-        id: 10,
-        name: "Fermod Doe",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar7.png",
-      },
-      {
-        id: 11,
-        name: "Danny Doe",
-        status: "active",
-        image: "https://bootdey.com/img/Content/avatar/avatar1.png",
-      },
-    ],
-  };
 
   const profileActions = [
     {
@@ -158,9 +118,13 @@ export default function ProfileScreen({ navigation }) {
     },
   ];
 
-  const renderItem = ({ item }) => {
+  const renderPetListItem = ({ item }) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          alert(JSON.stringify(item));
+        }}
+      >
         <View style={styles.row}>
           <Image source={{ uri: item.image }} style={styles.pic} />
           <View>
@@ -172,10 +136,10 @@ export default function ProfileScreen({ navigation }) {
               >
                 {item.name}
               </Text>
-              <Text style={styles.mblTxt}>Mobile</Text>
+              <Text style={styles.mblTxt}>{item.type}</Text>
             </View>
             <View style={styles.msgContainer}>
-              <Text style={styles.msgTxt}>{item.status}</Text>
+              <Text style={styles.msgTxt}>{item.species}</Text>
             </View>
           </View>
         </View>
@@ -195,11 +159,13 @@ export default function ProfileScreen({ navigation }) {
       <View style={{ flex: 2 }}>
         <FlatList
           extraData={petList}
-          data={petList.data}
+          data={petList}
           keyExtractor={(item) => {
             return item.id;
           }}
-          renderItem={renderItem}
+          renderItem={renderPetListItem}
+          refreshing={loading}
+          onRefresh={getPets}
         />
       </View>
       <FloatingAction
