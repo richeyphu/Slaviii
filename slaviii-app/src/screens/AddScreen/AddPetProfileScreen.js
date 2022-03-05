@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 
 import styles from "./styles";
 
@@ -18,20 +25,109 @@ import { Formik } from "formik";
 
 import * as ImagePicker from "expo-image-picker";
 import { firebase } from "@/src/firebase/config";
-import storage from "firebase/storage";
-import * as Progress from "react-native-progress";
+// import * as Progress from "react-native-progress";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 
 import { addPetProfileSchema } from "@/src/utils";
 
-const AddPetProfileScreen = () => {
+const AddPetProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
 
   const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
+
+  const userID = firebase.auth().currentUser.uid;
+  const userPetInstance = firebase
+    .firestore()
+    .collection("users/" + userID + "/pets");
+
+  const onSaveButtonPress = async (values) => {
+    const { uri } = image;
+    const filename = uri.substring(uri.lastIndexOf("/") + 1);
+    const uploadUri = Platform.OS === "ios" ? uri.replace("file://", "") : uri;
+
+    setUploading(true);
+    setTransferred(0);
+
+    // userPetInstance
+    // .add(values)
+    // .catch((error) => {
+    //   alert(error);
+    // });
+
+    // alert(JSON.stringify(values));
+
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uploadUri, true);
+      xhr.send(null);
+    });
+
+    const uploadRef = firebase.storage().ref(filename);
+    const uploadTask = uploadRef.put(blob);
+
+    // uploadTask
+    //   .then(() => {
+    //     console.log("Image uploaded to the bucket!");
+    //   })
+    //   .catch((e) => console.log("uploading image error => ", e));
+
+    // set progress state
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+        );
+        setTransferred(progress);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    try {
+      await uploadTask;
+    } catch (e) {
+      console.error(e);
+    }
+
+    await uploadRef.getDownloadURL().then((url) => {
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      const data = {
+        name: values.name,
+        dob: values.dob,
+        type: values.type,
+        species: values.species,
+        image: url,
+        createdAt: timestamp,
+      };
+      userPetInstance.add(data).catch((error) => {
+        alert(error);
+      });
+    });
+
+    setUploading(false);
+    setImage(null);
+
+    Alert.alert(
+      "Pet Profile Added",
+      "Your pet profile has been saved to cloud successfully!"
+    );
+
+    navigation.navigate("Home");
+  };
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -55,12 +151,19 @@ const AddPetProfileScreen = () => {
     console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage(result);
     }
   };
 
   return (
     <Container>
+      {uploading && (
+        <ActivityIndicator
+          size="large"
+          color="salmon"
+          style={styles.loadingIndicator}
+        />
+      )}
       <Content padder>
         <View style={styles.headerContent}>
           <TouchableOpacity
@@ -70,7 +173,7 @@ const AddPetProfileScreen = () => {
             }}
           >
             {image ? (
-              <Image style={styles.avatar} source={{ uri: image }} />
+              <Image style={styles.avatar} source={{ uri: image.uri }} />
             ) : (
               <Image
                 style={styles.avatar}
@@ -89,7 +192,9 @@ const AddPetProfileScreen = () => {
           validationSchema={addPetProfileSchema}
           // Run this when click 'Save'
           onSubmit={async (values, { setSubmitting }) => {
-            alert(JSON.stringify(values));
+            setSubmitting(true);
+            onSaveButtonPress(values);
+            setSubmitting(false);
           }}
         >
           {/* errors ใช้สำหรับตรวจสอบ state (ถ้าผู้ใช้ไม่กรอกข้อมูล จะให้ error อะไรเกิดขึ้น) */}
@@ -142,7 +247,7 @@ const AddPetProfileScreen = () => {
                 </TouchableOpacity>
                 {show && (
                   <DateTimePicker
-                    value={new Date()}
+                    value={new Date(new Date().setHours(0, 0, 0, 0))}
                     mode="date"
                     is24Hour={true}
                     display="default"
