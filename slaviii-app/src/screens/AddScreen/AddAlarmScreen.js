@@ -28,10 +28,10 @@ const AddAlarmScreen = () => {
   const [time, setTime] = useState(null);
   const [show, setShow] = useState(false);
 
-  const onChangeTime = (event, selectedDate) => {
-    const currentDate = selectedDate || time;
+  const onChangeTime = (event, selectedTime) => {
+    const currentTime = selectedTime || time;
     setShow(false);
-    setTime(currentDate);
+    setTime(currentTime);
   };
 
   const showTimePicker = () => {
@@ -77,8 +77,12 @@ const AddAlarmScreen = () => {
                       is24Hour={true}
                       display="default"
                       onChange={(event, selectedTime) => {
-                        onChangeTime(event, selectedTime);
-                        setFieldValue("time", selectedTime);
+                        if (selectedTime) {
+                          onChangeTime(event, selectedTime);
+                          setFieldValue("time", selectedTime);
+                        } else {
+                          setShow(false);
+                        }
                       }}
                     />
                   )}
