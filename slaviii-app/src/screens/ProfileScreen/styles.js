@@ -56,6 +56,7 @@ export default StyleSheet.create({
     borderRadius: 30,
     width: 60,
     height: 60,
+    backgroundColor: "lightgrey",
   },
   nameContainer: {
     flexDirection: "row",

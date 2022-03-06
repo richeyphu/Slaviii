@@ -53,9 +53,13 @@ export default function ProfileScreen({ navigation }) {
     userPetInstance.onSnapshot(
       async (querySnapshot) => {
         setPetList(
-          await querySnapshot.docs.map((doc) => {
-            return { ...doc.data(), id: doc.id };
-          })
+          await querySnapshot.docs
+            .map((doc) => {
+              return { ...doc.data(), id: doc.id };
+            })
+            .sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            })
         );
         // alert(JSON.stringify(petList));
       },
@@ -126,7 +130,14 @@ export default function ProfileScreen({ navigation }) {
         }}
       >
         <View style={styles.row}>
-          <Image source={{ uri: item.image }} style={styles.pic} />
+          <Image
+            source={
+              item.image
+                ? { uri: item.image }
+                : require("@/assets/adaptive-icon.png")
+            }
+            style={styles.pic}
+          />
           <View>
             <View style={styles.nameContainer}>
               <Text
