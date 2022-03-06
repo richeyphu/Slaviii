@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, Image, TouchableOpacity, Alert } from "react-native";
 
 import styles from "./styles";
 
@@ -16,18 +16,22 @@ import {
 } from "native-base";
 import { Formik } from "formik";
 
-import * as ImagePicker from "expo-image-picker";
-import storage from "firebase/storage";
-import * as Progress from "react-native-progress";
+import { firebase } from "@/src/firebase/config";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 
 import { addAlarmSchema } from "@/src/utils";
 import { Loader } from "@/src/components";
 
-const AddAlarmScreen = () => {
+const AddAlarmScreen = ({ navigation }) => {
   const [time, setTime] = useState(null);
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const userID = firebase.auth().currentUser.uid;
+  const userAlarmInstance = firebase
+    .firestore()
+    .collection("users/" + userID + "/alarms");
 
   const onChangeTime = (event, selectedTime) => {
     const currentTime = selectedTime || time;
@@ -39,9 +43,40 @@ const AddAlarmScreen = () => {
     setShow(true);
   };
 
+  const handleAddAlarm = async (values) => {
+    setLoading(true);
+
+    // alert(JSON.stringify(values));
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    const data = {
+      time: values.time,
+      name: values.name,
+      food: values.food,
+      pet: values.pet,
+      createdAt: timestamp,
+    };
+
+    try {
+      await userAlarmInstance.add(data).catch((error) => {
+        alert(error);
+      });
+
+      Alert.alert(
+        "New Alarm Added",
+        "Your alarm has been saved to cloud successfully!"
+      );
+
+      navigation.navigate("Home");
+    } catch (error) {
+      alert(error);
+    }
+
+    setLoading(false);
+  };
+
   return (
     <Container>
-      <Loader loading={false} />
+      <Loader loading={loading} />
       <Content padder>
         <Formik
           initialValues={{
@@ -53,7 +88,7 @@ const AddAlarmScreen = () => {
           validationSchema={addAlarmSchema}
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
-            alert(JSON.stringify(values));
+            handleAddAlarm(values);
             setSubmitting(false);
           }}
         >
