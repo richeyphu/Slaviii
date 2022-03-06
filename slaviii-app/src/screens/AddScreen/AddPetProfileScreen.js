@@ -126,7 +126,7 @@ const AddPetProfileScreen = ({ navigation }) => {
     setImage(null);
 
     Alert.alert(
-      "Pet Profile Added",
+      "New Pet Profile Added",
       "Your pet profile has been saved to cloud successfully!"
     );
 
