@@ -1,2 +1,2 @@
 // export * from "./TextBox/TextBox.js"
-export * from "./Loader/Loader"
+export { default as Loader } from "./Loader/Loader";

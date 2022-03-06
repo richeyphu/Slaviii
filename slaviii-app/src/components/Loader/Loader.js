@@ -15,7 +15,7 @@ const Loader = (props) => {
     >
       <View style={styles.modalBackground}>
         <View style={styles.activityIndicatorWrapper}>
-          <ActivityIndicator animating={loading} />
+          <ActivityIndicator color="salmon" size="large" animating={loading} />
         </View>
       </View>
     </Modal>
