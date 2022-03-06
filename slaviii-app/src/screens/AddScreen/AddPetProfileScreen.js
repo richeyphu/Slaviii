@@ -30,6 +30,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 
 import { addPetProfileSchema } from "@/src/utils";
+import { Loader } from "@/src/components";
 
 const AddPetProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
@@ -46,6 +47,16 @@ const AddPetProfileScreen = ({ navigation }) => {
 
   const onSaveButtonPress = async (values) => {
     setUploading(true);
+
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    const data = {
+      name: values.name,
+      dob: values.dob,
+      type: values.type,
+      species: values.species,
+      image: null,
+      createdAt: timestamp,
+    };
 
     if (image) {
       const { uri } = image;
@@ -99,29 +110,13 @@ const AddPetProfileScreen = ({ navigation }) => {
       }
 
       await uploadRef.getDownloadURL().then((url) => {
-        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        const data = {
-          name: values.name,
-          dob: values.dob,
-          type: values.type,
-          species: values.species,
-          image: url,
-          createdAt: timestamp,
-        };
+        data.image = url;
         userPetInstance.add(data).catch((error) => {
           alert(error);
         });
       });
     } else {
-      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-      const data = {
-        name: values.name,
-        dob: values.dob,
-        type: values.type,
-        species: values.species,
-        image: null,
-        createdAt: timestamp,
-      };
+      // When no image is selected
       userPetInstance.add(data).catch((error) => {
         alert(error);
       });
@@ -166,13 +161,14 @@ const AddPetProfileScreen = ({ navigation }) => {
 
   return (
     <Container>
-      {uploading && (
+      {/* {uploading && (
         <ActivityIndicator
           size="large"
           color="salmon"
           style={styles.loadingIndicator}
         />
-      )}
+      )} */}
+      <Loader loading={uploading} />
       <Content padder>
         <View style={styles.headerContent}>
           <TouchableOpacity

@@ -3,18 +3,22 @@ import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
+import { Loader } from "@/src/components";
 
 export default function RegistrationScreen({ navigation }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onFooterLinkPress = () => {
     navigation.navigate("Login");
   };
 
   const onRegisterPress = () => {
+    setLoading(true);
+
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
       return;
@@ -44,10 +48,13 @@ export default function RegistrationScreen({ navigation }) {
       .catch((error) => {
         alert(error);
       });
+
+    setLoading(false);
   };
 
   return (
     <View style={styles.container}>
+      <Loader loading={loading} />
       <KeyboardAwareScrollView
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"

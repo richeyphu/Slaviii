@@ -23,6 +23,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 
 import { addAlarmSchema } from "@/src/utils";
+import { Loader } from "@/src/components";
 
 const AddAlarmScreen = () => {
   const [time, setTime] = useState(null);
@@ -40,6 +41,7 @@ const AddAlarmScreen = () => {
 
   return (
     <Container>
+      <Loader loading={false} />
       <Content padder>
         <Formik
           initialValues={{
@@ -50,7 +52,9 @@ const AddAlarmScreen = () => {
           }}
           validationSchema={addAlarmSchema}
           onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
             alert(JSON.stringify(values));
+            setSubmitting(false);
           }}
         >
           {({

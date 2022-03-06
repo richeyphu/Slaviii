@@ -8,9 +8,11 @@ import { passwordResetSchema } from "@/src/utils";
 import { firebase } from "@/src/firebase/config";
 
 import styles from "./styles";
+import { Loader } from "@/src/components";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const [errorState, setErrorState] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //   const handleSendPasswordResetEmail = (values) => {
   //     const { email } = values;
@@ -25,6 +27,8 @@ export default function ForgotPasswordScreen({ navigation }) {
   //   };
 
   const handleSendPasswordResetEmail = async (values) => {
+    setLoading(true);
+
     const { email } = values;
     try {
       await sendPasswordResetEmail(firebase.auth(), email);
@@ -34,10 +38,13 @@ export default function ForgotPasswordScreen({ navigation }) {
       alert(error);
       setErrorState(error.message);
     }
+
+    setLoading(false);
   };
 
   return (
     <View isSafe style={styles.container}>
+      <Loader loading={loading} />
       <View style={styles.innerContainer}>
         <Text style={styles.screenTitle}>Reset your password</Text>
       </View>

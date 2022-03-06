@@ -12,6 +12,7 @@ import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
+import { Loader } from "@/src/components";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -20,6 +21,7 @@ export default function LoginScreen({ navigation }) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSignupPress = () => {
     navigation.navigate("Registration");
@@ -30,6 +32,8 @@ export default function LoginScreen({ navigation }) {
   };
 
   const onLoginPress = () => {
+    setLoading(true);
+
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -45,7 +49,7 @@ export default function LoginScreen({ navigation }) {
               return;
             }
             const user = firestoreDocument.data();
-            
+
             // update profile by context (Global State)
             userStore.updateProfile(user);
 
@@ -58,10 +62,13 @@ export default function LoginScreen({ navigation }) {
       .catch((error) => {
         alert(error);
       });
+
+    setLoading(false);
   };
 
   return (
     <View style={styles.container}>
+      <Loader loading={loading} />
       <KeyboardAwareScrollView
         style={{ flex: 1, width: "100%" }}
         keyboardShouldPersistTaps="always"
