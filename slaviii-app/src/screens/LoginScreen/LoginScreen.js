@@ -14,7 +14,11 @@ import { firebase } from "@/src/firebase/config";
 import { userStoreContext } from "@/src/contexts/UserContext";
 import { Loader } from "@/src/components";
 
-LogBox.ignoreLogs(["Setting a timer"]);
+LogBox.ignoreLogs([
+  "Setting a timer",
+  "Unhandled promise rejection",
+  "VirtualizedLists should never be nested",
+]);
 
 export default function LoginScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
