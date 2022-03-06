@@ -13,6 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
+import { Loader } from "@/src/components";
 
 export default function ProfileScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
@@ -161,6 +162,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Loader loading={loading} />
       <View style={styles.header}>
         <View style={styles.headerContent}>
           {/* <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar1.png'}}/> */}
