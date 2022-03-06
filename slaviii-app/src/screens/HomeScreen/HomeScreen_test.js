@@ -8,7 +8,7 @@ import {
   View,
   Image,
 } from "react-native";
-import styles from "./styles";
+import styles from "./styles_test";
 import { firebase } from "@/src/firebase/config";
 // import { getDocs, query, where, orderBy } from "firebase/firestore";
 import { Feather } from "@expo/vector-icons";
