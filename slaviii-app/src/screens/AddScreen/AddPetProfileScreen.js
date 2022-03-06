@@ -45,7 +45,7 @@ const AddPetProfileScreen = ({ navigation }) => {
     .firestore()
     .collection("users/" + userID + "/pets");
 
-  const onSaveButtonPress = async (values) => {
+  const handleAddPetProfile = async (values) => {
     setUploading(true);
 
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -198,7 +198,7 @@ const AddPetProfileScreen = ({ navigation }) => {
           // Run this when click 'Save'
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
-            onSaveButtonPress(values);
+            handleAddPetProfile(values);
             setSubmitting(false);
           }}
         >
