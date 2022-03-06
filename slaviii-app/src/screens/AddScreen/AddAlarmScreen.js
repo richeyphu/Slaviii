@@ -54,6 +54,7 @@ const AddAlarmScreen = ({ navigation }) => {
       food: values.food,
       pet: values.pet,
       createdAt: timestamp,
+      active: true,
     };
 
     try {

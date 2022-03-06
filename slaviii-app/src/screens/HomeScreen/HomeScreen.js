@@ -1,23 +1,24 @@
 import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
 import {
-  FlatList,
-  Keyboard,
-  Text,
-  TextInput,
   TouchableOpacity,
   View,
   Image,
+  Switch,
+  FlatList,
+  RefreshControl,
 } from "react-native";
+
+import { Container, Content, Card, CardItem, Text, Body } from "native-base";
+
 import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
-// import { getDocs, query, where, orderBy } from "firebase/firestore";
 import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
+import moment from "moment";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
 
-export default function HomeScreen(props) {
-  const { navigation } = props;
+export default function HomeScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
 
   useLayoutEffect(() => {
@@ -54,127 +55,97 @@ export default function HomeScreen(props) {
     },
   ];
 
-  const [entityText, setEntityText] = useState("");
-  const [entities, setEntities] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const [userID, setUserID] = useState(null);
+  const [alarms, setAlarms] = useState([]);
 
-  const entityInstance = firebase.firestore().collection("entities");
-  
   const userID = firebase.auth().currentUser.uid;
-  // const userID = props.extraData.id;
-  // const userData = userStore.profile;
-  // alert(JSON.stringify(userData));
+  const userAlarmInstance = firebase
+    .firestore()
+    .collection("users/" + userID + "/alarms");
 
-  const getEntities = () => {
+  const getAlarms = () => {
     setLoading(true);
 
-    // const entityQuery = query(entityInstance);
-    // getDocs(entityQuery).then((entities) => {
-    //   setEntities(
-    // entities.docs.map((entity) => {
-    //   return { ...entity.data() };
-    // })
-    //   );
-    // });
-
-    entityInstance
-      .where("authorID", "==", userID)
-      // .orderBy("createdAt", "desc")
-      .onSnapshot(
-        (querySnapshot) => {
-          const newEntities = [];
-          querySnapshot.forEach((doc) => {
-            const entity = doc.data();
-            entity.id = doc.id;
-            newEntities.push(entity);
-          });
-          // orderBy("createdAt", "desc")
-          newEntities.sort((a, b) => {
-            return b.createdAt - a.createdAt;
-          });
-          setEntities(newEntities);
-        },
-        (error) => {
-          console.log(error);
-        }
+    userAlarmInstance.get().then(async (querySnapshot) => {
+      setAlarms(
+        await querySnapshot.docs
+          .map((doc) => {
+            return { ...doc.data(), id: doc.id };
+          })
+          .sort((a, b) => {
+            return a.time - b.time;
+          })
       );
+      // alert(JSON.stringify(alarms));
+    });
 
     setLoading(false);
   };
 
   useEffect(() => {
-    // if (userData) {
-    //   setUserID(userData.id);
-    // }
+    getAlarms();
+  }, [alarms]);
 
-    getEntities();
-  }, [/*userData*/, userID]);
-
-  const onAddButtonPress = () => {
-    if (entityText && entityText.length > 0) {
-      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-      const data = {
-        text: entityText,
-        authorID: userID,
-        createdAt: timestamp,
-      };
-      entityInstance
-        .add(data)
-        .then((_doc) => {
-          setEntityText("");
-          Keyboard.dismiss();
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    }
-  };
-
-  const renderEntity = ({ item, index }) => {
+  const renderAlarm = ({ item, index }) => {
     return (
-      <View style={styles.entityContainer}>
-        <Text style={styles.entityText}>
-          {index}. {item.text}
-        </Text>
-      </View>
+      // <View style={styles.entityContainer}>
+      //   <Text style={styles.entityText}>
+      //     {index}. {item.name}
+      //   </Text>
+      // </View>
+      <Card>
+        <CardItem
+          header
+          style={{ flexDirection: "row", backgroundColor: "lightsalmon" }}
+        >
+          <Text style={{ flex: 1, fontWeight: "bold", fontSize: 30 }}>
+            {item.name}
+          </Text>
+          <Text
+            style={{
+              flex: 1,
+              textAlign: "right",
+              fontWeight: "bold",
+              fontSize: 40,
+            }}
+          >
+            {moment(item.time.toDate()).format("HH:mm")}
+          </Text>
+        </CardItem>
+        <CardItem style={{ backgroundColor: "lightsalmon" }}>
+          <Body>
+            <Text style={{}}>{item.pet}</Text>
+            <Text style={{}}>{item.food}</Text>
+          </Body>
+          <Switch onValueChange={() => {}} value={item.active} />
+        </CardItem>
+        {/* <CardItem footer bordered>
+          <Text>Slaviii</Text>
+        </CardItem> */}
+      </Card>
     );
   };
 
   const _onRefresh = () => {
-    getEntities();
+    getAlarms();
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Add new entity"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEntityText(text)}
-          value={entityText}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TouchableOpacity style={styles.button} onPress={onAddButtonPress}>
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
-      </View>
-      {entities && (
-        <View style={styles.listContainer}>
-          <FlatList
-            data={entities}
-            renderItem={renderEntity}
-            keyExtractor={(item) => item.id}
-            removeClippedSubviews={true}
-            onRefresh={() => {
-              _onRefresh();
-            }}
-            refreshing={loading}
-          />
-        </View>
-      )}
+    <Container>
+      <Content padder>
+        {alarms && (
+          <View style={{}}>
+            <FlatList
+              data={alarms}
+              renderItem={renderAlarm}
+              keyExtractor={(item) => item.id}
+              onRefresh={_onRefresh}
+              refreshing={loading}
+              contentContainerStyle={{ paddingBottom: 80 }}
+            />
+          </View>
+        )}
+      </Content>
       <FloatingAction
         color="#C84132"
         actions={homeActions}
@@ -187,6 +158,6 @@ export default function HomeScreen(props) {
           }
         }}
       />
-    </View>
+    </Container>
   );
 }

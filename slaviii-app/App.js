@@ -76,9 +76,10 @@ export default function App() {
   const AppStack = () => {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Home">
+        {/* <Stack.Screen name="Home">
           {(props) => <HomeScreen {...props} extraData={user} />}
-        </Stack.Screen>
+        </Stack.Screen> */}
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen
           name="AddAlarm"
