@@ -128,6 +128,7 @@ export default function ProfileScreen({ navigation }) {
         onPress={() => {
           alert(JSON.stringify(item));
         }}
+        style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}
       >
         <View style={styles.row}>
           <Image
@@ -177,6 +178,7 @@ export default function ProfileScreen({ navigation }) {
           renderItem={renderPetListItem}
           refreshing={loading}
           onRefresh={getPets}
+          contentContainerStyle={{ paddingBottom: 10 }}
         />
       </View>
       <FloatingAction
