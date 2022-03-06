@@ -117,7 +117,11 @@ export default function HomeScreen({ navigation }) {
             <Text style={{}}>{item.pet}</Text>
             <Text style={{}}>{item.food}</Text>
           </Body>
-          <Switch onValueChange={() => {}} value={item.active} />
+          <Switch
+            style={{ transform: [{ scaleX: 1.8 }, { scaleY: 1.8 }], marginRight: 15 }}
+            onValueChange={() => {}}
+            value={item.active}
+          />
         </CardItem>
         {/* <CardItem footer bordered>
           <Text>Slaviii</Text>
