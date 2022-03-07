@@ -38,28 +38,28 @@ export default function AnnouncementScreen({ navigation }) {
     });
   }, [navigation]);
 
-  // const [annoucementText, setAnnoucementText] = useState("");
-  const [annoucements, setAnnoucements] = useState([]);
+  // const [announcementText, setAnnouncementText] = useState("");
+  const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const annoucementInstance = firebase.firestore().collection("annoucements");
+  const announcementInstance = firebase.firestore().collection("announcements");
 
-  const getAnnoucements = () => {
+  const getAnnouncements = () => {
     setLoading(true);
 
-    annoucementInstance.onSnapshot(
+    announcementInstance.onSnapshot(
       (querySnapshot) => {
-        const newAnnoucements = [];
+        const newAnnouncements = [];
         querySnapshot.forEach((doc) => {
-          const annoucement = doc.data();
-          annoucement.id = doc.id;
-          newAnnoucements.push(annoucement);
+          const announcement = doc.data();
+          announcement.id = doc.id;
+          newAnnouncements.push(announcement);
         });
         // orderBy("createdAt", "desc")
-        newAnnoucements.sort((a, b) => {
+        newAnnouncements.sort((a, b) => {
           return b.createdAt - a.createdAt;
         });
-        setAnnoucements(newAnnoucements);
+        setAnnouncements(newAnnouncements);
       },
       (error) => {
         console.log(error);
@@ -70,10 +70,10 @@ export default function AnnouncementScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getAnnoucements();
+    getAnnouncements();
   }, []);
 
-  const renderAnnoucement = ({ item, index }) => {
+  const renderAnnouncement = ({ item, index }) => {
     return (
       <Card>
         <CardItem header style={styles.cardHeader}>
@@ -95,7 +95,7 @@ export default function AnnouncementScreen({ navigation }) {
   };
 
   const _onRefresh = () => {
-    getAnnoucements();
+    getAnnouncements();
   };
 
   return (
@@ -110,11 +110,11 @@ export default function AnnouncementScreen({ navigation }) {
           <RefreshControl refreshing={loading} onRefresh={_onRefresh} />
         }
       >
-        {annoucements && (
+        {announcements && (
           <View style={styles.listContainer}>
             <FlatList
-              data={annoucements}
-              renderItem={renderAnnoucement}
+              data={announcements}
+              renderItem={renderAnnouncement}
               keyExtractor={(item) => item.id}
               removeClippedSubviews={true}
               onRefresh={() => {

@@ -1,25 +1,25 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  annoucementContainer: {
+  announcementContainer: {
     marginTop: 16,
     borderBottomColor: "#cccccc",
     borderBottomWidth: 1,
     paddingBottom: 16,
   },
-  annoucementText: {
+  announcementText: {
     fontSize: 20,
     color: "#333333",
   },
   headerContent: {
     width: "100%",
-    padding: 30,
+    padding: 20,
     alignItems: "center",
     backgroundColor: "salmon",
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
     borderRadius: 150,
     borderWidth: 4,
     borderColor: "#FFFFFF",
@@ -37,17 +37,13 @@ export default StyleSheet.create({
   cardHeaderText: {
     flex: 1,
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 28,
   },
   cardBody: {
     // backgroundColor: "lightsalmon",
   },
   cardBodyText: {
     // fontSize: 18,
-  },
-  cardBodySwitch: {
-    transform: [{ scaleX: 1.8 }, { scaleY: 1.8 }],
-    marginRight: 15,
   },
   cardFooterTime: {
     flex: 1,
