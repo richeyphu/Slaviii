@@ -1,57 +1,29 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
-  formContainer: {
+  cardHeader: {
     flexDirection: "row",
-    height: 80,
-    marginTop: 40,
-    marginBottom: 20,
+    backgroundColor: "lightsalmon",
+  },
+  cardHeaderText: {
     flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    fontWeight: "bold",
+    fontSize: 30,
   },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: "hidden",
-    backgroundColor: "white",
-    paddingLeft: 16,
+  cardHeaderTime: {
     flex: 1,
-    marginRight: 5,
+    textAlign: "right",
+    fontWeight: "bold",
+    fontSize: 40,
   },
-  button: {
-    height: 47,
-    borderRadius: 5,
-    backgroundColor: "salmon",
-    width: 80,
-    alignItems: "center",
-    justifyContent: "center",
+  cardBody: {
+    backgroundColor: "lightsalmon",
   },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
+  cardBodyText: {
+    fontSize: 18,
   },
-  listContainer: {
-    // width: "95%",
-    marginTop: 20,
-    padding: 20,
-  },
-  entityContainer: {
-    marginTop: 16,
-    borderBottomColor: "#cccccc",
-    borderBottomWidth: 1,
-    paddingBottom: 16,
-  },
-  entityText: {
-    fontSize: 20,
-    color: "#333333",
+  cardBodySwitch: {
+    transform: [{ scaleX: 1.8 }, { scaleY: 1.8 }],
+    marginRight: 15,
   },
 });

@@ -84,44 +84,24 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     getAlarms();
-  }, [alarms]);
+  }, []);
 
   const renderAlarm = ({ item, index }) => {
     return (
-      // <View style={styles.entityContainer}>
-      //   <Text style={styles.entityText}>
-      //     {index}. {item.name}
-      //   </Text>
-      // </View>
       <Card>
-        <CardItem
-          header
-          style={{ flexDirection: "row", backgroundColor: "lightsalmon" }}
-        >
-          <Text style={{ flex: 1, fontWeight: "bold", fontSize: 30 }}>
-            {item.name}
-          </Text>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "right",
-              fontWeight: "bold",
-              fontSize: 40,
-            }}
-          >
+        <CardItem header style={styles.cardHeader}>
+          <Text style={styles.cardHeaderText}>{item.name}</Text>
+          <Text style={styles.cardHeaderTime}>
             {moment(item.time.toDate()).format("HH:mm")}
           </Text>
         </CardItem>
-        <CardItem style={{ backgroundColor: "lightsalmon" }}>
+        <CardItem style={styles.cardBody}>
           <Body>
-            <Text style={{}}>{item.pet}</Text>
-            <Text style={{}}>{item.food}</Text>
+            <Text style={styles.cardBodyText}>{item.pet}</Text>
+            <Text style={styles.cardBodyText}>{item.food}</Text>
           </Body>
           <Switch
-            style={{
-              transform: [{ scaleX: 1.8 }, { scaleY: 1.8 }],
-              marginRight: 15,
-            }}
+            style={styles.cardBodySwitch}
             onValueChange={() => {}}
             value={item.active}
           />
