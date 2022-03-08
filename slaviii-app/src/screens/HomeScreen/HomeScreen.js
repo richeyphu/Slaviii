@@ -14,6 +14,7 @@ import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
 import { FloatingAction } from "react-native-floating-action";
 import moment from "moment";
+import * as Animatable from "react-native-animatable";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
 import { homeActions } from "@/src/utils";
@@ -98,6 +99,18 @@ export default function HomeScreen({ navigation }) {
       );
   };
 
+  const handleSwitchChange = (value, item) => {
+    const alarmID = item.id;
+    const alarmRef = userAlarmInstance.doc(alarmID);
+    alarmRef.set(
+      {
+        active: value,
+      },
+      { merge: true }
+    );
+    getAlarms();
+  };
+
   useEffect(() => {
     const getNewAlarm = navigation.addListener("focus", () => {
       getAlarms();
@@ -108,25 +121,37 @@ export default function HomeScreen({ navigation }) {
 
   const renderAlarm = ({ item, index }) => {
     return (
-      <Card style={styles.cardBody}>
-        <CardItem header style={styles.cardHeader}>
-          <Text style={styles.cardHeaderText}>{item.name}</Text>
-          <Text style={styles.cardHeaderTime}>
-            {moment(item.time.toDate()).format("HH:mm")}
-          </Text>
-        </CardItem>
-        <CardItem style={styles.cardBody}>
-          <Body>
-            <Text style={styles.cardBodyText}>{getPetName(item.pet)}</Text>
-            <Text style={styles.cardBodyText}>{item.food}</Text>
-          </Body>
-          <Switch
-            style={styles.cardBodySwitch}
-            onValueChange={() => {}}
-            value={item.active}
-          />
-        </CardItem>
-      </Card>
+      <Animatable.View
+        animation="fadeInUp"
+        easing="ease-out"
+        duration={1500}
+        useNativeDriver={true}
+      >
+        <Card style={styles.cardBody}>
+          <CardItem header style={styles.cardHeader}>
+            <Text style={styles.cardHeaderText}>{item.name}</Text>
+            <Text style={styles.cardHeaderTime}>
+              {moment(item.time.toDate()).format("HH:mm")}
+            </Text>
+          </CardItem>
+          <CardItem style={styles.cardBody}>
+            <Body>
+              <Text style={styles.cardBodyText}>
+                {item.pet}
+                {/* {getPetName(item.pet)} */}
+              </Text>
+              <Text style={styles.cardBodyText}>{item.food}</Text>
+            </Body>
+            <Switch
+              style={styles.cardBodySwitch}
+              onValueChange={(value) => {
+                handleSwitchChange(value, item);
+              }}
+              value={item.active}
+            />
+          </CardItem>
+        </Card>
+      </Animatable.View>
     );
   };
 
