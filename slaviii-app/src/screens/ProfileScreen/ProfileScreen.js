@@ -73,9 +73,13 @@ export default function ProfileScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getName();
-    getPets();
-  }, []);
+    const getNewProfile = navigation.addListener('focus', () => {
+      getName();
+      getPets();
+      // alert('Refreshed');
+    });
+    return getNewProfile;
+  }, [navigation]);
 
   const signOutUser = async () => {
     try {

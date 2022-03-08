@@ -70,8 +70,12 @@ export default function AnnouncementScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getAnnouncements();
-  }, []);
+    const getNewAnnouncement = navigation.addListener('focus', () => {
+      getAnnouncements();
+      // alert('Refreshed');
+    });
+    return getNewAnnouncement;
+  }, [navigation]);
 
   const renderAnnouncement = ({ item, index }) => {
     return (

@@ -73,7 +73,7 @@ export default function HomeScreen({ navigation }) {
             return { ...doc.data(), id: doc.id };
           })
           .sort((a, b) => {
-            return a.time - b.time;
+            return a.time.toDate() - b.time.toDate();
           })
       );
       // alert(JSON.stringify(alarms));
@@ -83,12 +83,16 @@ export default function HomeScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getAlarms();
-  }, []);
+    const getNewAlarm = navigation.addListener('focus', () => {
+      getAlarms();
+      // alert('Refreshed');
+    });
+    return getNewAlarm;
+  }, [navigation]);
 
   const renderAlarm = ({ item, index }) => {
     return (
-      <Card>
+      <Card style={styles.cardBody}>
         <CardItem header style={styles.cardHeader}>
           <Text style={styles.cardHeaderText}>{item.name}</Text>
           <Text style={styles.cardHeaderTime}>
@@ -106,9 +110,6 @@ export default function HomeScreen({ navigation }) {
             value={item.active}
           />
         </CardItem>
-        {/* <CardItem footer bordered>
-          <Text>Slaviii</Text>
-        </CardItem> */}
       </Card>
     );
   };
