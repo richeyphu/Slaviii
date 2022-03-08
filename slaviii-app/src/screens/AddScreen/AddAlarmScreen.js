@@ -13,6 +13,7 @@ import {
   Icon,
   Label,
   View,
+  Picker,
 } from "native-base";
 import { Formik } from "formik";
 
@@ -27,11 +28,21 @@ const AddAlarmScreen = ({ navigation }) => {
   const [time, setTime] = useState(null);
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [petList, setPetList] = useState([]);
 
   const userID = firebase.auth().currentUser.uid;
   const userAlarmInstance = firebase
     .firestore()
     .collection("users/" + userID + "/alarms");
+  const userPetInstance = firebase
+    .firestore()
+    .collection("users/" + userID + "/pets");
+
+  useEffect(() => {
+    setLoading(true);
+    getPetList();
+    setLoading(false);
+  }, []);
 
   const onChangeTime = (event, selectedTime) => {
     const currentTime = selectedTime || time;
@@ -41,6 +52,29 @@ const AddAlarmScreen = ({ navigation }) => {
 
   const showTimePicker = () => {
     setShow(true);
+  };
+
+  const getPetList = () => {
+    setLoading(true);
+
+    userPetInstance.onSnapshot(
+      async (querySnapshot) => {
+        setPetList(
+          await querySnapshot.docs
+            .map((doc) => {
+              return { ...doc.data(), id: doc.id };
+            })
+            .sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            })
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    setLoading(false);
   };
 
   const handleAddAlarm = async (values) => {
@@ -84,7 +118,7 @@ const AddAlarmScreen = ({ navigation }) => {
             time: "",
             name: "",
             food: "",
-            pet: "pet",
+            pet: "",
           }}
           validationSchema={addAlarmSchema}
           onSubmit={async (values, { setSubmitting }) => {
@@ -167,6 +201,33 @@ const AddAlarmScreen = ({ navigation }) => {
               {errors.food && touched.food && (
                 <Item>
                   <Label style={{ color: "red" }}>{errors.food}</Label>
+                </Item>
+              )}
+
+              <Item fixedLabel error={errors.pet && touched.pet ? true : false}>
+                <Label>Pet</Label>
+                <Picker
+                  style={{ width: 135 }}
+                  mode="dropdown"
+                  selectedValue={values.pet}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setFieldValue("pet", itemValue)
+                  }
+                >
+                  <Picker.Item label="Select Pet" value="" />
+                  {petList.map((item) => (
+                    <Picker.Item
+                      label={item.name}
+                      value={item.id}
+                      key={item.id}
+                    />
+                  ))}
+                </Picker>
+                {errors.pet && touched.food && <Icon name="close-circle" />}
+              </Item>
+              {errors.pet && touched.pet && (
+                <Item>
+                  <Label style={{ color: "red" }}>{errors.pet}</Label>
                 </Item>
               )}
 
