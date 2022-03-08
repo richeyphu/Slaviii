@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
-import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
