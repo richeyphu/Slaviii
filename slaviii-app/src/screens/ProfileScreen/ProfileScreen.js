@@ -14,6 +14,7 @@ import { FloatingAction } from "react-native-floating-action";
 import { userStoreContext } from "@/src/contexts/UserContext";
 import { Loader } from "@/src/components";
 import { profileActions } from "@/src/utils";
+import * as Animatable from "react-native-animatable";
 
 export default function ProfileScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
@@ -111,7 +112,13 @@ export default function ProfileScreen({ navigation }) {
         }}
         style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}
       >
-        <View style={styles.row}>
+        <Animatable.View
+          style={styles.row}
+          animation="fadeInUp"
+          easing="ease-out"
+          duration={1000}
+          useNativeDriver={true}
+        >
           <Image
             source={
               item.image
@@ -135,7 +142,7 @@ export default function ProfileScreen({ navigation }) {
               <Text style={styles.msgTxt}>{item.species}</Text>
             </View>
           </View>
-        </View>
+        </Animatable.View>
       </TouchableOpacity>
     );
   };
@@ -145,9 +152,21 @@ export default function ProfileScreen({ navigation }) {
       <Loader loading={loading} />
       <View style={styles.header}>
         <View style={styles.headerContent}>
-          {/* <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar1.png'}}/> */}
-          <Image style={styles.avatar} source={require("@/assets/icon.png")} />
-          <Text style={styles.name}>{fullname}</Text>
+          <Animatable.Image
+            style={styles.avatar}
+            source={require("@/assets/icon.png")}
+            animation="pulse"
+            delay={1500}
+            useNativeDriver={true}
+          />
+          <Animatable.Text
+            style={styles.name}
+            animation="pulse"
+            delay={1500}
+            useNativeDriver={true}
+          >
+            {fullname}
+          </Animatable.Text>
         </View>
       </View>
       <View style={{ flex: 2 }}>
