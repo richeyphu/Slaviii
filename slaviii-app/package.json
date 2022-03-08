@@ -40,7 +40,6 @@
     "react-native-reanimated": "~2.3.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
-    "react-native-simple-alarm": "^2.0.2",
     "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
     "yup": "^0.32.11"
