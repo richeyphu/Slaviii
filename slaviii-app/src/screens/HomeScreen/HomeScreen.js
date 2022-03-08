@@ -12,7 +12,6 @@ import { Container, Content, Card, CardItem, Text, Body } from "native-base";
 
 import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
-import { Feather } from "@expo/vector-icons";
 import { FloatingAction } from "react-native-floating-action";
 import moment from "moment";
 
@@ -41,11 +40,15 @@ export default function HomeScreen({ navigation }) {
 
   const [loading, setLoading] = useState(false);
   const [alarms, setAlarms] = useState([]);
+  const [petName, setPetName] = useState([]);
 
   const userID = firebase.auth().currentUser.uid;
   const userAlarmInstance = firebase
     .firestore()
     .collection("users/" + userID + "/alarms");
+  const userPetInstance = firebase
+    .firestore()
+    .collection("users/" + userID + "/pets");
 
   const getAlarms = () => {
     setLoading(true);
@@ -54,7 +57,21 @@ export default function HomeScreen({ navigation }) {
       setAlarms(
         await querySnapshot.docs
           .map((doc) => {
-            return { ...doc.data(), id: doc.id };
+            const alarmDoc = doc.data();
+            const petID = alarmDoc.pet;
+
+            userPetInstance.doc(petID).onSnapshot(
+              (snapshot) => {
+                const _petName = snapshot.data().name;
+                alarmDoc.pet = _petName;
+                // console.log(JSON.stringify(alarmDoc))
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
+
+            return { ...alarmDoc, id: doc.id };
           })
           .sort((a, b) => {
             return a.time.toDate() - b.time.toDate();
@@ -66,8 +83,23 @@ export default function HomeScreen({ navigation }) {
     setLoading(false);
   };
 
+  const getPetName = (petID) => {
+    const petName = userPetInstance
+      .doc(petID)
+      .get()
+      .then(
+        (snapshot) => {
+          const petName = snapshot.data().name;
+          return petName;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
   useEffect(() => {
-    const getNewAlarm = navigation.addListener('focus', () => {
+    const getNewAlarm = navigation.addListener("focus", () => {
       getAlarms();
       // alert('Refreshed');
     });
@@ -85,7 +117,7 @@ export default function HomeScreen({ navigation }) {
         </CardItem>
         <CardItem style={styles.cardBody}>
           <Body>
-            <Text style={styles.cardBodyText}>{item.pet}</Text>
+            <Text style={styles.cardBodyText}>{getPetName(item.pet)}</Text>
             <Text style={styles.cardBodyText}>{item.food}</Text>
           </Body>
           <Switch
