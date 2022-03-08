@@ -112,7 +112,7 @@ const AddAlarmScreen = ({ navigation }) => {
                   </Text>
                   {show && (
                     <DateTimePicker
-                      value={new Date()}
+                      value={new Date(2022, 0, 0)}
                       mode="time"
                       is24Hour={true}
                       display="default"
