@@ -179,7 +179,7 @@ export default function ProfileScreen({ navigation }) {
           renderItem={renderPetListItem}
           refreshing={loading}
           onRefresh={getPets}
-          contentContainerStyle={{ paddingBottom: 10 }}
+          contentContainerStyle={{ paddingBottom: 100 }}
         />
       </View>
       <FloatingAction
