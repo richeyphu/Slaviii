@@ -13,6 +13,7 @@ import {
   AddAlarmScreen,
   AddPetProfileScreen,
   AnnouncementScreen,
+  EditProfileScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 
@@ -90,6 +91,11 @@ export default function App() {
           name="AddPetProfile"
           component={AddPetProfileScreen}
           options={{ title: "Add Pet Profile" }}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfileScreen}
+          options={{ title: "Edit Your Profile" }}
         />
         <Stack.Screen name="Announcement" component={AnnouncementScreen} />
       </Stack.Navigator>

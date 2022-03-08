@@ -20,6 +20,7 @@ export default function ProfileScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
 
   const [fullname, setFullname] = useState([]);
+  const [profilePic, setProfilePic] = useState(null);
   const [petList, setPetList] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +31,7 @@ export default function ProfileScreen({ navigation }) {
     .firestore()
     .collection("users/" + userID + "/pets");
 
-  const getName = () => {
+  const getUserProfile = () => {
     setLoading(true);
 
     userInstance.where("id", "==", userID).onSnapshot(
@@ -39,6 +40,7 @@ export default function ProfileScreen({ navigation }) {
           const user = doc.data();
           // alert(user.fullName);
           setFullname(user.fullName);
+          setProfilePic(user.image);
         });
       },
       (error) => {
@@ -75,7 +77,7 @@ export default function ProfileScreen({ navigation }) {
 
   useEffect(() => {
     const getNewProfile = navigation.addListener("focus", () => {
-      getName();
+      getUserProfile();
       getPets();
       // alert('Refreshed');
     });
@@ -154,7 +156,9 @@ export default function ProfileScreen({ navigation }) {
         <View style={styles.headerContent}>
           <Animatable.Image
             style={styles.avatar}
-            source={require("@/assets/icon.png")}
+            source={
+              profilePic ? { uri: profilePic } : require("@/assets/icon.png")
+            }
             animation="pulse"
             delay={1500}
             useNativeDriver={true}
@@ -190,8 +194,11 @@ export default function ProfileScreen({ navigation }) {
           if (name === "bt_logout") {
             confirmSignOutAlert();
           } else if (name === "bt_editprofile") {
-            alert("Edit Profile");
-            // navigation.navigate("EditProfile");
+            // alert("Edit Profile");
+            navigation.navigate("EditProfile", {
+              fullname: fullname,
+              profilePic: profilePic,
+            });
           } else if (name === "bt_annoucement") {
             // alert("Announcement");
             navigation.navigate("Announcement");
