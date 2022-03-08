@@ -17,6 +17,7 @@ import { FloatingAction } from "react-native-floating-action";
 import moment from "moment";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
+import { homeActions } from "@/src/utils";
 
 export default function HomeScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
@@ -37,23 +38,6 @@ export default function HomeScreen({ navigation }) {
       ),
     });
   }, [navigation]);
-
-  const homeActions = [
-    {
-      text: "Add Pet Profile",
-      icon: <Feather name="user-plus" size={24} color="white" />,
-      name: "bt_pet",
-      position: 1,
-      color: "#C84132",
-    },
-    {
-      text: "Add Alarm",
-      icon: <Feather name="bell" size={24} color="white" />,
-      name: "bt_alarm",
-      position: 2,
-      color: "#C84132",
-    },
-  ];
 
   const [loading, setLoading] = useState(false);
   const [alarms, setAlarms] = useState([]);

@@ -14,6 +14,7 @@ import { FloatingAction } from "react-native-floating-action";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
 import { Loader } from "@/src/components";
+import { profileActions } from "@/src/utils";
 
 export default function ProfileScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
@@ -73,7 +74,7 @@ export default function ProfileScreen({ navigation }) {
   };
 
   useEffect(() => {
-    const getNewProfile = navigation.addListener('focus', () => {
+    const getNewProfile = navigation.addListener("focus", () => {
       getName();
       getPets();
       // alert('Refreshed');
@@ -102,30 +103,6 @@ export default function ProfileScreen({ navigation }) {
       },
       { text: "OK", onPress: () => signOutUser() },
     ]);
-
-  const profileActions = [
-    {
-      text: "Announcement",
-      icon: <Feather name="alert-circle" size={24} color="white" />,
-      name: "bt_annoucement",
-      position: 1,
-      color: "#C84132",
-    },
-    {
-      text: "Edit Profile",
-      icon: <Feather name="edit" size={24} color="white" />,
-      name: "bt_editprofile",
-      position: 2,
-      color: "#C84132",
-    },
-    {
-      text: "Log out",
-      icon: <Feather name="log-out" size={24} color="white" />,
-      name: "bt_logout",
-      position: 3,
-      color: "#C84132",
-    },
-  ];
 
   const renderPetListItem = ({ item }) => {
     return (

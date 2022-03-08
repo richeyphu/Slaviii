@@ -1,4 +1,4 @@
-import {
+export {
   loginValidationSchema,
   signupValidationSchema,
   passwordResetSchema,
@@ -6,10 +6,4 @@ import {
   addAlarmSchema,
 } from "./schemas";
 
-export {
-  loginValidationSchema,
-  signupValidationSchema,
-  passwordResetSchema,
-  addPetProfileSchema,
-  addAlarmSchema,
-};
+export { homeActions, profileActions } from "./actionBtn";
