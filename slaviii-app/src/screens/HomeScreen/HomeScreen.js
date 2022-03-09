@@ -69,7 +69,7 @@ export default function HomeScreen({ navigation }) {
       const _alarms = await querySnapshot.docs
         .map((doc) => {
           const alarmDoc = doc.data();
-          // console.log(JSON.stringify(alarmDoc));
+          console.log(JSON.stringify(alarmDoc));
           // const petID = alarmDoc.pet;
           // userPetInstance.doc(petID).onSnapshot(
           //   (snapshot) => {
@@ -140,7 +140,7 @@ export default function HomeScreen({ navigation }) {
 
         Notifications.scheduleNotificationAsync({
           content: {
-            title: "Wake up slave! It's time to feed " + alarmName,
+            title: "Wake up slave!! It's time to feed " + alarmName + "!",
             body: "I'm hungry!! Where's my " + alarmFood + "!?",
             // sound: Platform.OS === "android" ? null : "default",
           },
