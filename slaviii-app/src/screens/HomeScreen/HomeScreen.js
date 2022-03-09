@@ -6,6 +6,7 @@ import {
   Switch,
   FlatList,
   RefreshControl,
+  Platform,
 } from "react-native";
 
 import { Container, Content, Card, CardItem, Text, Body } from "native-base";
@@ -15,9 +16,19 @@ import { firebase } from "@/src/firebase/config";
 import { FloatingAction } from "react-native-floating-action";
 import moment from "moment";
 import * as Animatable from "react-native-animatable";
+import * as Notifications from "expo-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
 import { homeActions } from "@/src/utils";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 export default function HomeScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
@@ -51,33 +62,35 @@ export default function HomeScreen({ navigation }) {
     .firestore()
     .collection("users/" + userID + "/pets");
 
-  const getAlarms = () => {
+  const getAlarms = async () => {
     setLoading(true);
 
     userAlarmInstance.get().then(async (querySnapshot) => {
-      setAlarms(
-        await querySnapshot.docs
-          .map((doc) => {
-            const alarmDoc = doc.data();
-            const petID = alarmDoc.pet;
+      const _alarms = await querySnapshot.docs
+        .map((doc) => {
+          const alarmDoc = doc.data();
+          // console.log(JSON.stringify(alarmDoc));
+          // const petID = alarmDoc.pet;
+          // userPetInstance.doc(petID).onSnapshot(
+          //   (snapshot) => {
+          //     const _petName = snapshot.data().name;
+          //     alarmDoc.pet = _petName;
+          //     // console.log(JSON.stringify(alarmDoc))
+          //   },
+          //   (error) => {
+          //     console.log(error);
+          //   }
+          // );
+          const _alarmDoc = { ...alarmDoc, id: doc.id };
 
-            userPetInstance.doc(petID).onSnapshot(
-              (snapshot) => {
-                const _petName = snapshot.data().name;
-                alarmDoc.pet = _petName;
-                // console.log(JSON.stringify(alarmDoc))
-              },
-              (error) => {
-                console.log(error);
-              }
-            );
+          return _alarmDoc;
+        })
+        .sort((a, b) => {
+          return a.time.toDate() - b.time.toDate();
+        });
 
-            return { ...alarmDoc, id: doc.id };
-          })
-          .sort((a, b) => {
-            return a.time.toDate() - b.time.toDate();
-          })
-      );
+      // await AsyncStorage.setItem("@alarms", JSON.stringify(_alarms));
+      setAlarms(_alarms);
       // alert(JSON.stringify(alarms));
     });
 
@@ -99,7 +112,7 @@ export default function HomeScreen({ navigation }) {
       );
   };
 
-  const handleSwitchChange = (value, item) => {
+  const handleSwitchChange = async (value, item) => {
     const alarmID = item.id;
     const alarmRef = userAlarmInstance.doc(alarmID);
     alarmRef.set(
@@ -109,11 +122,42 @@ export default function HomeScreen({ navigation }) {
       { merge: true }
     );
     getAlarms();
+    setUpAlarms();
+  };
+
+  const setUpAlarms = async () => {
+    Notifications.cancelAllScheduledNotificationsAsync();
+    // const alarms = await AsyncStorage.getItem("@alarms");
+    alarms.forEach((alarm) => {
+      if (alarm.active) {
+        const alarmName = alarm.name;
+        const alarmFood = alarm.food;
+        const alarmTime = alarm.time.toDate();
+        const hour = alarmTime.getHours();
+        const minute = alarmTime.getMinutes();
+
+        console.log(alarmName, alarmFood, hour, minute, alarm.active);
+
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: "Wake up slave! It's time to feed " + alarmName,
+            body: "I'm hungry!! Where's my " + alarmFood + "!?",
+            // sound: Platform.OS === "android" ? null : "default",
+          },
+          trigger: {
+            hour: hour,
+            minute: minute,
+            repeats: true,
+          },
+        });
+      }
+    });
   };
 
   useEffect(() => {
     const getNewAlarm = navigation.addListener("focus", () => {
       getAlarms();
+      setUpAlarms();
       // alert('Refreshed');
     });
     return getNewAlarm;

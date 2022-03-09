@@ -14,7 +14,9 @@ import { FloatingAction } from "react-native-floating-action";
 import { userStoreContext } from "@/src/contexts/UserContext";
 import { Loader } from "@/src/components";
 import { profileActions } from "@/src/utils";
+
 import * as Animatable from "react-native-animatable";
+import * as Notifications from "expo-notifications";
 
 export default function ProfileScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
@@ -86,7 +88,13 @@ export default function ProfileScreen({ navigation }) {
 
   const signOutUser = async () => {
     try {
+      // Clear all notifications
+      Notifications.cancelAllScheduledNotificationsAsync();
+
+      // Clear user context
       userStore.updateProfile(null);
+      
+      // Sign out user
       await firebase.auth().signOut();
       // navigation.navigate("Login");
     } catch (e) {
