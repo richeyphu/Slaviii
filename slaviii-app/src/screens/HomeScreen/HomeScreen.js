@@ -69,20 +69,21 @@ export default function HomeScreen({ navigation }) {
       const _alarms = await querySnapshot.docs
         .map((doc) => {
           const alarmDoc = doc.data();
-          console.log(JSON.stringify(alarmDoc));
+          // console.log(JSON.stringify(alarmDoc));
+
           // const petID = alarmDoc.pet;
           // userPetInstance.doc(petID).onSnapshot(
           //   (snapshot) => {
           //     const _petName = snapshot.data().name;
           //     alarmDoc.pet = _petName;
-          //     // console.log(JSON.stringify(alarmDoc))
+          //     console.log(JSON.stringify(alarmDoc));
           //   },
           //   (error) => {
           //     console.log(error);
           //   }
           // );
           const _alarmDoc = { ...alarmDoc, id: doc.id };
-
+          
           return _alarmDoc;
         })
         .sort((a, b) => {
@@ -97,6 +98,7 @@ export default function HomeScreen({ navigation }) {
     setLoading(false);
   };
 
+  /*
   const getPetName = (petID) => {
     const petName = userPetInstance
       .doc(petID)
@@ -111,8 +113,11 @@ export default function HomeScreen({ navigation }) {
         }
       );
   };
+  */
 
   const handleSwitchChange = async (value, item) => {
+    Notifications.cancelAllScheduledNotificationsAsync();
+
     const alarmID = item.id;
     const alarmRef = userAlarmInstance.doc(alarmID);
     alarmRef.set(
@@ -122,9 +127,10 @@ export default function HomeScreen({ navigation }) {
       { merge: true }
     );
     getAlarms();
-    setUpAlarms();
+    // setUpAlarms();
   };
 
+  /*
   const setUpAlarms = async () => {
     Notifications.cancelAllScheduledNotificationsAsync();
     // const alarms = await AsyncStorage.getItem("@alarms");
@@ -153,17 +159,47 @@ export default function HomeScreen({ navigation }) {
       }
     });
   };
+  */
 
   useEffect(() => {
     const getNewAlarm = navigation.addListener("focus", () => {
+      Notifications.cancelAllScheduledNotificationsAsync();
       getAlarms();
-      setUpAlarms();
+      // setUpAlarms();
       // alert('Refreshed');
     });
     return getNewAlarm;
   }, [navigation]);
 
   const renderAlarm = ({ item, index }) => {
+    const setUpAlarm = async () => {
+      const alarm = item;
+      if (alarm.active) {
+        const alarmName = alarm.name;
+        const alarmFood = alarm.food;
+        const alarmTime = alarm.time.toDate();
+        const hour = alarmTime.getHours();
+        const minute = alarmTime.getMinutes();
+
+        console.log(alarmName, alarmFood, hour, minute, alarm.active);
+
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: "Wake up slave!! It's time to feed " + alarmName + "!",
+            body: "I'm hungry!! Where's my " + alarmFood + "!?",
+            // sound: Platform.OS === "android" ? null : "default",
+            // sound: "alarm.wav",
+          },
+          trigger: {
+            hour: hour,
+            minute: minute,
+            repeats: true,
+          },
+        });
+      }
+    };
+    setUpAlarm();
+
     return (
       <Animatable.View
         animation="fadeInUp"
