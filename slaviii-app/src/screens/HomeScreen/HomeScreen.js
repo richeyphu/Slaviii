@@ -83,7 +83,7 @@ export default function HomeScreen({ navigation }) {
           //   }
           // );
           const _alarmDoc = { ...alarmDoc, id: doc.id };
-          
+
           return _alarmDoc;
         })
         .sort((a, b) => {
@@ -175,7 +175,7 @@ export default function HomeScreen({ navigation }) {
     const setUpAlarm = async () => {
       const alarm = item;
       if (alarm.active) {
-        const alarmName = alarm.name;
+        const alarmName = alarm.pet.name;
         const alarmFood = alarm.food;
         const alarmTime = alarm.time.toDate();
         const hour = alarmTime.getHours();
@@ -215,12 +215,17 @@ export default function HomeScreen({ navigation }) {
             </Text>
           </CardItem>
           <CardItem style={styles.cardBody}>
+            <Image
+              style={styles.cardPic}
+              source={
+                item.pet.image
+                  ? { uri: item.pet.image }
+                  : require("@/assets/icon.png")
+              }
+            />
             <Body>
-              <Text style={styles.cardBodyText}>
-                {item.pet}
-                {/* {getPetName(item.pet)} */}
-              </Text>
-              <Text style={styles.cardBodyText}>{item.food}</Text>
+              <Text style={styles.cardBodyText1}>{item.pet.name}</Text>
+              <Text style={styles.cardBodyText2}>{item.food}</Text>
             </Body>
             <Switch
               style={styles.cardBodySwitch}
@@ -241,13 +246,13 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <Container>
-      <Content
-        padder
-        refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={_onRefresh} />
-        }
-      >
-        {alarms && (
+      {alarms.length > 0 ? (
+        <Content
+          padder
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={_onRefresh} />
+          }
+        >
           <View style={{}}>
             <FlatList
               data={alarms}
@@ -258,8 +263,42 @@ export default function HomeScreen({ navigation }) {
               contentContainerStyle={{ paddingBottom: 80 }}
             />
           </View>
-        )}
-      </Content>
+        </Content>
+      ) : (
+        <View style={styles.welcomeContainer}>
+          <Animatable.Image
+            style={styles.logo}
+            source={require("@/assets/icon.png")}
+            animation="pulse"
+            duration={3000}
+            useNativeDriver={true}
+          />
+          <Animatable.Text
+            style={styles.welcomeText1}
+            animation="fadeIn"
+            duration={3000}
+            useNativeDriver={true}
+          >
+            Welcome to Slaviii
+          </Animatable.Text>
+          <Animatable.Text
+            style={styles.welcomeText2}
+            animation="fadeInUp"
+            delay={3500}
+            useNativeDriver={true}
+          >
+            Press + to start using
+          </Animatable.Text>
+          <Animatable.Image
+            style={styles.arrow}
+            source={require("@/assets/arrow.png")}
+            animation="pulse"
+            delay={5000}
+            iterationCount="infinite"
+            useNativeDriver={true}
+          />
+        </View>
+      )}
       <FloatingAction
         color="#C84132"
         actions={homeActions}
