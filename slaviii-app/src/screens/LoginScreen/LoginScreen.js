@@ -81,6 +81,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.logo}
           source={require("@/assets/adaptive-icon.png")}
         />
+        <Text style={styles.title}>Salviii</Text>
         <TextInput
           style={styles.input}
           placeholder="E-mail"
