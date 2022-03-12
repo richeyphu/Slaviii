@@ -17,7 +17,8 @@ import { FloatingAction } from "react-native-floating-action";
 import moment from "moment";
 import * as Animatable from "react-native-animatable";
 import * as Notifications from "expo-notifications";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppLoading from "expo-app-loading";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
 import { homeActions } from "@/src/utils";
@@ -51,7 +52,7 @@ export default function HomeScreen({ navigation }) {
   }, [navigation]);
 
   const [loading, setLoading] = useState(false);
-  const [alarms, setAlarms] = useState([]);
+  const [alarms, setAlarms] = useState(null);
   const [petName, setPetName] = useState([]);
 
   const userID = firebase.auth().currentUser.uid;
@@ -243,6 +244,10 @@ export default function HomeScreen({ navigation }) {
   const _onRefresh = () => {
     getAlarms();
   };
+
+  if (alarms === null) {
+    return <AppLoading />;
+  }
 
   return (
     <Container>
