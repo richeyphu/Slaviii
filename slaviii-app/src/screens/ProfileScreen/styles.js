@@ -15,7 +15,7 @@ export default StyleSheet.create({
   avatar: {
     width: 130,
     height: 130,
-    borderRadius: 63,
+    borderRadius: 500,
     borderWidth: 4,
     borderColor: "#FFFFFF",
     marginBottom: 10,
