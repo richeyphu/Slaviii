@@ -16,6 +16,8 @@ import {
   EditProfileScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
+import AppLoading from "expo-app-loading";
+import { useFonts, Kanit_400Regular as Kanit } from "@expo-google-fonts/kanit";
 
 import UserStoreProvider from "./src/contexts/UserContext";
 
@@ -31,6 +33,10 @@ const Stack = createStackNavigator();
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+
+  let [fontsLoaded] = useFonts({
+    Kanit,
+  });
 
   useEffect(() => {
     const usersInstance = firebase.firestore().collection("users");
@@ -56,8 +62,8 @@ export default function App() {
     });
   }, []);
 
-  if (loading) {
-    return <></>;
+  if (loading || !fontsLoaded) {
+    return <AppLoading />;
   }
 
   const AuthStack = () => {
