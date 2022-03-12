@@ -22,6 +22,7 @@ import {
   Kanit_400Regular as Kanit,
   Kanit_600SemiBold as KanitBold,
 } from "@expo-google-fonts/kanit";
+import { Mansalva_400Regular as Mansalva } from "@expo-google-fonts/mansalva";
 
 import UserStoreProvider from "./src/contexts/UserContext";
 
@@ -41,6 +42,7 @@ export default function App() {
   let [fontsLoaded] = useFonts({
     Kanit,
     KanitBold,
+    Mansalva,
   });
 
   useEffect(() => {
