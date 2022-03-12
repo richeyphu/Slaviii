@@ -213,21 +213,6 @@ export default function ProfileScreen({ navigation }) {
           }
         }}
       />
-      {/* <View style={styles.body}>
-        <View style={styles.bodyContent}>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => {
-              confirmSignOutAlert();
-            }}
-          >
-            <Text>Sign out</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonContainer}>
-            <Text>Opcion 2</Text>
-          </TouchableOpacity>
-        </View>
-      </View> */}
     </View>
   );
 }

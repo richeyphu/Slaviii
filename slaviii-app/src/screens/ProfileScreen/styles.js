@@ -9,7 +9,7 @@ export default StyleSheet.create({
     backgroundColor: "salmon",
   },
   headerContent: {
-    padding: 30,
+    padding: 28,
     alignItems: "center",
   },
   avatar: {
@@ -21,9 +21,10 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   name: {
-    fontSize: 22,
+    fontSize: 24,
     color: "#FFFFFF",
-    fontWeight: "600",
+    // fontWeight: "600",
+    fontFamily: "Kanit",
   },
   body: {
     marginTop: 40,
