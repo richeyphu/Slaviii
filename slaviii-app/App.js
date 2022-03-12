@@ -17,7 +17,11 @@ import {
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import AppLoading from "expo-app-loading";
-import { useFonts, Kanit_400Regular as Kanit } from "@expo-google-fonts/kanit";
+import {
+  useFonts,
+  Kanit_400Regular as Kanit,
+  Kanit_600SemiBold as KanitBold,
+} from "@expo-google-fonts/kanit";
 
 import UserStoreProvider from "./src/contexts/UserContext";
 
@@ -36,6 +40,7 @@ export default function App() {
 
   let [fontsLoaded] = useFonts({
     Kanit,
+    KanitBold,
   });
 
   useEffect(() => {

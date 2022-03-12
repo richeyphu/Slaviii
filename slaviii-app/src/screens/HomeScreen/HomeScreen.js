@@ -181,7 +181,7 @@ export default function HomeScreen({ navigation }) {
         const hour = alarmTime.getHours();
         const minute = alarmTime.getMinutes();
 
-        console.log(alarmName, alarmFood, hour, minute, alarm.active);
+        // console.log(alarmName, alarmFood, hour, minute, alarm.active);
 
         Notifications.scheduleNotificationAsync({
           content: {
