@@ -86,7 +86,7 @@ const AddAlarmScreen = ({ navigation }) => {
       time: values.time,
       name: values.name,
       food: values.food,
-      pet: values.pet,
+      pet: JSON.parse(values.pet),
       createdAt: timestamp,
       active: true,
     };
@@ -215,11 +215,15 @@ const AddAlarmScreen = ({ navigation }) => {
                   }
                 >
                   <Picker.Item label="Select Pet" value="" />
-                  {petList.map((item) => (
+                  {petList.map((pet) => (
                     <Picker.Item
-                      label={item.name}
-                      value={item.id}
-                      key={item.id}
+                      label={pet.name}
+                      value={JSON.stringify({
+                        id: pet.id,
+                        name: pet.name,
+                        image: pet.image,
+                      })}
+                      key={pet.id}
                     />
                   ))}
                 </Picker>
