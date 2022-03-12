@@ -93,7 +93,7 @@ export default function ProfileScreen({ navigation }) {
 
       // Clear user context
       userStore.updateProfile(null);
-      
+
       // Sign out user
       await firebase.auth().signOut();
       // navigation.navigate("Login");
@@ -114,11 +114,16 @@ export default function ProfileScreen({ navigation }) {
       { text: "OK", onPress: () => signOutUser() },
     ]);
 
+  const handlePetPress = (petData) => {
+    // alert(JSON.stringify(petData));
+    navigation.navigate("EditPetProfile", { petData: petData });
+  };
+
   const renderPetListItem = ({ item }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          alert(JSON.stringify(item));
+          handlePetPress(item);
         }}
         style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}
       >
