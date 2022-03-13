@@ -268,6 +268,49 @@ export default function HomeScreen({ navigation }) {
     );
   };
 
+  const renderAlarmOptions = (data, rowMap) => {
+    return (
+      <Animatable.View
+        style={{ flexDirection: "row", height: "99.5%" }}
+        animation="fadeIn"
+        delay={1500}
+        duration={500}
+        useNativeDriver={true}
+      >
+        <Card style={{ backgroundColor: "gold", flex: 1, marginRight: 0 }}>
+          <TouchableOpacity
+            style={{
+              height: "100%",
+              justifyContent: "center",
+              marginLeft: "13%",
+            }}
+            onPress={() => {
+              navigation.navigate("EditAlarm", {
+                alarmData: data.item,
+              });
+            }}
+          >
+            <Feather name="edit" size={30} color="black" />
+          </TouchableOpacity>
+        </Card>
+        <Card style={{ backgroundColor: "tomato", flex: 1, marginLeft: 0 }}>
+          <TouchableOpacity
+            style={{
+              height: "100%",
+              justifyContent: "center",
+              marginLeft: "71%",
+            }}
+            onPress={() => {
+              handleDeleteAlarm(data.item.id);
+            }}
+          >
+            <Feather name="trash" size={30} color="whitesmoke" />
+          </TouchableOpacity>
+        </Card>
+      </Animatable.View>
+    );
+  };
+
   const _onRefresh = () => {
     getAlarms();
   };
@@ -297,48 +340,11 @@ export default function HomeScreen({ navigation }) {
             <SwipeListView
               data={alarms}
               renderItem={renderAlarm}
-              renderHiddenItem={(data, rowMap) => (
-                <Animatable.View
-                  style={{ flexDirection: "row", height: "100%" }}
-                  animation="fadeIn"
-                  delay={1500}
-                  duration={500}
-                  useNativeDriver={true}
-                >
-                  <Card style={{ backgroundColor: "gold", flex: 1 }}>
-                    <TouchableOpacity
-                      style={{
-                        height: "100%",
-                        justifyContent: "center",
-                        marginLeft: "13%",
-                      }}
-                      onPress={() => {
-                        navigation.navigate("EditAlarm", {
-                          alarmData: data.item,
-                        });
-                      }}
-                    >
-                      <Feather name="edit" size={30} color="black" />
-                    </TouchableOpacity>
-                  </Card>
-                  <Card style={{ backgroundColor: "tomato", flex: 1 }}>
-                    <TouchableOpacity
-                      style={{
-                        height: "100%",
-                        justifyContent: "center",
-                        marginLeft: "71%",
-                      }}
-                      onPress={() => {
-                        handleDeleteAlarm(data.item.id);
-                      }}
-                    >
-                      <Feather name="trash" size={30} color="whitesmoke" />
-                    </TouchableOpacity>
-                  </Card>
-                </Animatable.View>
-              )}
+              renderHiddenItem={renderAlarmOptions}
               leftOpenValue={75}
               rightOpenValue={-75}
+              stopLeftSwipe={150}
+              stopRightSwipe={-150}
             />
           </View>
         </Content>
