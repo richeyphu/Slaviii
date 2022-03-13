@@ -15,6 +15,7 @@ import {
   AnnouncementScreen,
   EditProfileScreen,
   EditPetProfileScreen,
+  EditAlarmScreen,
 } from "./src/screens";
 import { decode, encode } from "base-64";
 import AppLoading from "expo-app-loading";
@@ -115,6 +116,11 @@ export default function App() {
           name="EditPetProfile"
           component={EditPetProfileScreen}
           options={{ title: "Edit Pet Profile" }}
+        />
+        <Stack.Screen
+          name="EditAlarm"
+          component={EditAlarmScreen}
+          options={{ title: "Edit Alarm" }}
         />
         <Stack.Screen name="Announcement" component={AnnouncementScreen} />
       </Stack.Navigator>

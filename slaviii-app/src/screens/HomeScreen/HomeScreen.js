@@ -7,6 +7,7 @@ import {
   FlatList,
   RefreshControl,
   Platform,
+  Alert,
 } from "react-native";
 
 import { Container, Content, Card, CardItem, Text, Body } from "native-base";
@@ -14,6 +15,8 @@ import { Container, Content, Card, CardItem, Text, Body } from "native-base";
 import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
 import { FloatingAction } from "react-native-floating-action";
+import { SwipeListView } from "react-native-swipe-list-view";
+import { Feather } from "@expo/vector-icons";
 import moment from "moment";
 import * as Animatable from "react-native-animatable";
 import * as Notifications from "expo-notifications";
@@ -162,6 +165,30 @@ export default function HomeScreen({ navigation }) {
   };
   */
 
+  const handleDeleteAlarm = (alarmID) => {
+    Alert.alert("Delete Alarm", "Are you sure you want to delete this alarm?", [
+      {
+        text: "Cancel",
+        onPress: () => {
+          /*Do nothing*/
+        },
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          const userAlarmInstance = firebase
+            .firestore()
+            .collection("users/" + userID + "/alarms")
+            .doc(alarmID);
+          userAlarmInstance.delete();
+          Notifications.cancelAllScheduledNotificationsAsync();
+          getAlarms();
+        },
+      },
+    ]);
+  };
+
   useEffect(() => {
     const getNewAlarm = navigation.addListener("focus", () => {
       Notifications.cancelAllScheduledNotificationsAsync();
@@ -259,13 +286,59 @@ export default function HomeScreen({ navigation }) {
           }
         >
           <View style={{}}>
-            <FlatList
+            {/* <FlatList
               data={alarms}
               renderItem={renderAlarm}
               keyExtractor={(item) => item.id}
               onRefresh={_onRefresh}
               refreshing={loading}
               contentContainerStyle={{ paddingBottom: 80 }}
+            /> */}
+            <SwipeListView
+              data={alarms}
+              renderItem={renderAlarm}
+              renderHiddenItem={(data, rowMap) => (
+                <Animatable.View
+                  style={{ flexDirection: "row", height: "100%" }}
+                  animation="fadeIn"
+                  delay={1500}
+                  duration={500}
+                  useNativeDriver={true}
+                >
+                  <Card style={{ backgroundColor: "gold", flex: 1 }}>
+                    <TouchableOpacity
+                      style={{
+                        height: "100%",
+                        justifyContent: "center",
+                        marginLeft: "13%",
+                      }}
+                      onPress={() => {
+                        navigation.navigate("EditAlarm", {
+                          alarmData: data.item,
+                        });
+                      }}
+                    >
+                      <Feather name="edit" size={30} color="black" />
+                    </TouchableOpacity>
+                  </Card>
+                  <Card style={{ backgroundColor: "tomato", flex: 1 }}>
+                    <TouchableOpacity
+                      style={{
+                        height: "100%",
+                        justifyContent: "center",
+                        marginLeft: "71%",
+                      }}
+                      onPress={() => {
+                        handleDeleteAlarm(data.item.id);
+                      }}
+                    >
+                      <Feather name="trash" size={30} color="whitesmoke" />
+                    </TouchableOpacity>
+                  </Card>
+                </Animatable.View>
+              )}
+              leftOpenValue={75}
+              rightOpenValue={-75}
             />
           </View>
         </Content>

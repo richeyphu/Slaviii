@@ -9,5 +9,6 @@ export { default as AddPetProfileScreen } from "./AddScreen/AddPetProfileScreen"
 export { default as AnnouncementScreen } from "./AnnouncementScreen/AnnouncementScreen.js";
 export { default as EditProfileScreen } from "./EditScreen/EditProfileScreen";
 export { default as EditPetProfileScreen } from "./EditScreen/EditPetProfileScreen";
+export { default as EditAlarmScreen } from "./EditScreen/EditAlarmScreen";
 
 export { default as LoadingScreen } from "./LoadingScreen/LoadingScreen";
