@@ -27,6 +27,7 @@ export default function ProfileScreen({ navigation }) {
   const [profilePic, setProfilePic] = useState(null);
   const [petList, setPetList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // const { userID } = route.params;
   const userID = firebase.auth().currentUser.uid;
@@ -190,6 +191,32 @@ export default function ProfileScreen({ navigation }) {
     );
   };
 
+  const OpenMenuIcon = () => {
+    return (
+      <Animatable.View
+        animation="fadeIn"
+        duration={500}
+        easing="ease-in-out"
+        useNativeDriver={true}
+      >
+        <Feather name="menu" size={24} color="white" />
+      </Animatable.View>
+    );
+  };
+
+  const CloseMenuIcon = () => {
+    return (
+      <Animatable.View
+        animation="fadeIn"
+        duration={500}
+        easing="ease-in-out"
+        useNativeDriver={true}
+      >
+        <Feather name="x" size={24} color="white" />
+      </Animatable.View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Loader loading={loading} />
@@ -292,7 +319,7 @@ export default function ProfileScreen({ navigation }) {
         color="#C84132"
         actions={profileActions}
         onPressItem={(name) => {
-          // console.log(`selected button: ${name}`);
+          setIsMenuOpen(false);
           if (name === "bt_logout") {
             confirmSignOutAlert();
           } else if (name === "bt_editprofile") {
@@ -306,6 +333,13 @@ export default function ProfileScreen({ navigation }) {
             navigation.navigate("Announcement");
           }
         }}
+        onPressMain={() => {
+          setIsMenuOpen(isMenuOpen ? false : true);
+        }}
+        onPressBackdrop={() => {
+          setIsMenuOpen(isMenuOpen ? false : true);
+        }}
+        floatingIcon={isMenuOpen ? <CloseMenuIcon /> : <OpenMenuIcon />}
       />
     </View>
   );
