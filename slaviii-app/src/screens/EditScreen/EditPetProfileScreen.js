@@ -274,7 +274,9 @@ const AddPetProfileScreen = ({ navigation, route }) => {
                         "DD/MM/YYYY"
                       )}
                       value={
-                        date ? moment(date).format("DD/MM/YYYY") : values.dob
+                        date
+                          ? moment(date).format("DD/MM/YYYY")
+                          : moment(values.dob).format("DD/MM/YYYY")
                       }
                     />
                   </View>
