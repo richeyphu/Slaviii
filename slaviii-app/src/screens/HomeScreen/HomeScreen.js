@@ -102,23 +102,6 @@ export default function HomeScreen({ navigation }) {
     setLoading(false);
   };
 
-  /*
-  const getPetName = (petID) => {
-    const petName = userPetInstance
-      .doc(petID)
-      .get()
-      .then(
-        (snapshot) => {
-          const petName = snapshot.data().name;
-          return petName;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-  */
-
   const handleSwitchChange = async (value, item) => {
     Notifications.cancelAllScheduledNotificationsAsync();
 
@@ -133,37 +116,6 @@ export default function HomeScreen({ navigation }) {
     getAlarms();
     // setUpAlarms();
   };
-
-  /*
-  const setUpAlarms = async () => {
-    Notifications.cancelAllScheduledNotificationsAsync();
-    // const alarms = await AsyncStorage.getItem("@alarms");
-    alarms.forEach((alarm) => {
-      if (alarm.active) {
-        const alarmName = alarm.name;
-        const alarmFood = alarm.food;
-        const alarmTime = alarm.time.toDate();
-        const hour = alarmTime.getHours();
-        const minute = alarmTime.getMinutes();
-
-        console.log(alarmName, alarmFood, hour, minute, alarm.active);
-
-        Notifications.scheduleNotificationAsync({
-          content: {
-            title: "Wake up slave!! It's time to feed " + alarmName + "!",
-            body: "I'm hungry!! Where's my " + alarmFood + "!?",
-            // sound: Platform.OS === "android" ? null : "default",
-          },
-          trigger: {
-            hour: hour,
-            minute: minute,
-            repeats: true,
-          },
-        });
-      }
-    });
-  };
-  */
 
   const handleDeleteAlarm = (alarmID) => {
     Alert.alert("Delete Alarm", "Are you sure you want to delete this alarm?", [
