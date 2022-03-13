@@ -297,6 +297,7 @@ export default function HomeScreen({ navigation }) {
               rightOpenValue={-75}
               stopLeftSwipe={150}
               stopRightSwipe={-150}
+              contentContainerStyle={{ paddingBottom: 80 }}
             />
           </View>
         </Content>
