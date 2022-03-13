@@ -25,9 +25,4 @@ export default StyleSheet.create({
     fontSize: 16,
     color: "tomato"    
   },
-  footerLink: {
-    color: "salmon",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
 });
