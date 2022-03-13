@@ -321,7 +321,7 @@ export default function HomeScreen({ navigation }) {
           <Animatable.Text
             style={styles.welcomeText2}
             animation="fadeInUp"
-            delay={3500}
+            delay={3000}
             useNativeDriver={true}
           >
             Press + to start using
@@ -330,7 +330,8 @@ export default function HomeScreen({ navigation }) {
             style={styles.arrow}
             source={require("@/assets/arrow.png")}
             animation="pulse"
-            delay={5000}
+            direction="alternate"
+            delay={4000}
             iterationCount="infinite"
             useNativeDriver={true}
           />
