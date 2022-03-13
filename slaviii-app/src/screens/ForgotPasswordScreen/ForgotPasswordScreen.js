@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Text } from "react-native";
-import { View, Button, Input, Item, Label, Icon } from "native-base";
+import { View, Text } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+import { Label } from "native-base";
 import { Formik } from "formik";
 import { sendPasswordResetEmail } from "firebase/auth";
 
@@ -8,7 +10,12 @@ import { passwordResetSchema } from "@/src/utils";
 import { firebase } from "@/src/firebase/config";
 
 import styles from "./styles";
-import { Loader } from "@/src/components";
+
+import {
+  Loader,
+  InputBoxA as InputBox,
+  ButtonA as Button,
+} from "@/src/components";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const [errorState, setErrorState] = useState("");
@@ -43,82 +50,51 @@ export default function ForgotPasswordScreen({ navigation }) {
   };
 
   return (
-    <View isSafe style={styles.container}>
-      <Loader loading={loading} />
-      <View style={styles.innerContainer}>
-        <Text style={styles.screenTitle}>Reset your password</Text>
-      </View>
-      <Formik
-        initialValues={{ email: "" }}
-        validationSchema={passwordResetSchema}
-        onSubmit={(values) => handleSendPasswordResetEmail(values)}
+    <View style={styles.container}>
+      <KeyboardAwareScrollView
+        style={{ flex: 1, width: "100%" }}
+        keyboardShouldPersistTaps="always"
       >
-        {({
-          values,
-          touched,
-          errors,
-          handleChange,
-          handleSubmit,
-          handleBlur,
-        }) => (
-          <>
-            {/* Email input field */}
-
-            <Item
-              stackedLabel
-              error={errors.email && touched.email ? true : false}
-            >
-              <Label>Email</Label>
-              <Input
-                name="email"
+        <Loader loading={loading} />
+        <Formik
+          initialValues={{ email: "" }}
+          validationSchema={passwordResetSchema}
+          onSubmit={(values) => handleSendPasswordResetEmail(values)}
+        >
+          {({
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+          }) => (
+            <>
+              {/* Email input field */}
+              <InputBox
                 placeholder="Enter email"
-                keyboardType="email-address"
-                textContentType="emailAddress"
-                autoCapitalize="none"
-                leftIconName="email"
+                onChange={handleChange("email")}
                 value={values.email}
-                onChangeText={handleChange("email")}
                 onBlur={handleBlur("email")}
+                textContentType="emailAddress"
               />
-            </Item>
-            {/* Display Screen Error Mesages */}
-            {errorState == "" ? (
-              errors.email &&
-              touched.email && (
-                <Item underline={false}>
-                  <Label style={{ color: "red" }}>{errors.email}</Label>
-                </Item>
-              )
-            ) : (
-              <Item underline={false}>
-                <Label style={{ color: "red" }}>{errorState}</Label>
-              </Item>
-            )}
-            {/* Password Reset Send Email button */}
-            <Button
-              style={styles.button}
-              onPress={handleSubmit}
-              backgroundColor="salmon"
-            >
-              <Text
-                style={{ color: "white", fontSize: 20, fontWeight: "bold" }}
-              >
-                Send Reset Email
-              </Text>
-            </Button>
-          </>
-        )}
-      </Formik>
-      {/* Button to navigate to Login screen */}
-      <Button
-        style={styles.button}
-        onPress={() => navigation.navigate("Login")}
-        backgroundColor="salmon"
-      >
-        <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
-          Go back to Login
-        </Text>
-      </Button>
+              {/* Display Screen Error Mesages */}
+              <View style={styles.errorView}>
+                {errorState == "" ? (
+                  errors.email &&
+                  touched.email && (
+                    <Text style={styles.errorText}>{errors.email}</Text>
+                  )
+                ) : (
+                  <Text style={styles.errorText}>{errorState}</Text>
+                )}
+              </View>
+              {/* Password Reset Send Email button */}
+              <Button text="Send Reset Email" onPress={handleSubmit} />
+            </>
+          )}
+        </Formik>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

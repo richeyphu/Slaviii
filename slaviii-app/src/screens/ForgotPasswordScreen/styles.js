@@ -3,35 +3,31 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
     paddingHorizontal: 12,
   },
-  innercontainer: {
-    alignItems: "center",
+  logo: {
+    flex: 1,
+    height: 160,
+    width: 160,
+    alignSelf: "center",
+    marginTop: 30,
+    tintColor: "#6B1C12",
   },
-  screenTitle: {
-    fontSize: 32,
-    fontWeight: "700",
-    color: "black",
-    paddingTop: 20,
+  errorView: {
+    flex: 1,
+    alignItems: "flex-start",
+    marginTop: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
   },
-  button: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-    backgroundColor: "orange",
-    padding: 10,
-    borderRadius: 8,
+  errorText: {
+    fontSize: 16,
+    color: "tomato"    
   },
-  buttonText: {
-    fontSize: 20,
-    color: "white",
-    fontWeight: "700",
-  },
-  borderlessButtonContainer: {
-    marginTop: 16,
-    alignItems: "center",
-    justifyContent: "center",
+  footerLink: {
+    color: "salmon",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
