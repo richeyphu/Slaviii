@@ -10,6 +10,8 @@ import {
 import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
 import { FloatingAction } from "react-native-floating-action";
+import { SwipeListView } from "react-native-swipe-list-view";
+import { Feather } from "@expo/vector-icons";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
 import { Loader } from "@/src/components";
@@ -114,17 +116,43 @@ export default function ProfileScreen({ navigation }) {
       { text: "OK", onPress: () => signOutUser() },
     ]);
 
-  const handlePetPress = (petData) => {
-    // alert(JSON.stringify(petData));
-    navigation.navigate("EditPetProfile", { petData: petData });
+  // const handlePetPress = (petData) => {
+  //   // alert(JSON.stringify(petData));
+  //   navigation.navigate("EditPetProfile", { petData: petData });
+  // };
+
+  const handleDeletePet = (petID) => {
+    Alert.alert(
+      "Delete Pet Profile",
+      "Are you sure you want to delete this pet profile?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {
+            /*Do nothing*/
+          },
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            const userPetInstance = firebase
+              .firestore()
+              .collection("users/" + userID + "/pets")
+              .doc(petID);
+            userPetInstance.delete();
+            getPets();
+          },
+        },
+      ]
+    );
   };
 
   const renderPetListItem = ({ item }) => {
     return (
       <TouchableOpacity
-        onPress={() => {
-          handlePetPress(item);
-        }}
+        disabled
+        // onPress={() => { handlePetPress(item) }}
         style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}
       >
         <Animatable.View
@@ -187,7 +215,7 @@ export default function ProfileScreen({ navigation }) {
         </View>
       </View>
       <View style={{ flex: 2 }}>
-        <FlatList
+        {/* <FlatList
           extraData={petList}
           data={petList}
           keyExtractor={(item) => {
@@ -196,6 +224,67 @@ export default function ProfileScreen({ navigation }) {
           renderItem={renderPetListItem}
           refreshing={loading}
           onRefresh={getPets}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        /> */}
+        <SwipeListView
+          data={petList}
+          renderItem={renderPetListItem}
+          renderHiddenItem={(data, rowMap) => (
+            <Animatable.View
+              style={{
+                flexDirection: "row",
+                height: "99.5%",
+                marginTop: 10,
+                marginLeft: 10,
+                marginRight: 10,
+              }}
+              animation="fadeIn"
+              delay={1500}
+              duration={500}
+              useNativeDriver={true}
+            >
+              <View
+                style={{ backgroundColor: "gold", flex: 1, marginRight: 0 }}
+              >
+                <TouchableOpacity
+                  style={{
+                    height: "100%",
+                    justifyContent: "center",
+                    marginLeft: "13.5%",
+                  }}
+                  onPress={() => {
+                    navigation.navigate("EditPetProfile", {
+                      petData: data.item,
+                    });
+                  }}
+                >
+                  <Feather name="edit" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{ backgroundColor: "tomato", flex: 1, marginLeft: 0 }}
+              >
+                <TouchableOpacity
+                  style={{
+                    height: "100%",
+                    justifyContent: "center",
+                    marginLeft: "72.5%",
+                  }}
+                  onPress={() => {
+                    handleDeletePet(data.item.id);
+                  }}
+                >
+                  <Feather name="trash" size={26} color="whitesmoke" />
+                </TouchableOpacity>
+              </View>
+            </Animatable.View>
+          )}
+          refreshing={loading}
+          onRefresh={getPets}
+          leftOpenValue={75}
+          rightOpenValue={-75}
+          stopLeftSwipe={150}
+          stopRightSwipe={-150}
           contentContainerStyle={{ paddingBottom: 100 }}
         />
       </View>
