@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { Label } from "native-base";
@@ -56,6 +56,10 @@ export default function ForgotPasswordScreen({ navigation }) {
         keyboardShouldPersistTaps="always"
       >
         <Loader loading={loading} />
+        <Image
+          style={styles.logo}
+          source={require("@/assets/adaptive-icon.png")}
+        />
         <Formik
           initialValues={{ email: "" }}
           validationSchema={passwordResetSchema}
