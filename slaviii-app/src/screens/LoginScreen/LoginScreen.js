@@ -18,6 +18,7 @@ LogBox.ignoreLogs([
   "Setting a timer",
   "Unhandled promise rejection",
   "VirtualizedLists should never be nested",
+  "Can't perform a React state update",
 ]);
 
 export default function LoginScreen({ navigation }) {
