@@ -1,18 +1,15 @@
 import React, { useState, useContext } from "react";
-import {
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  LogBox,
-} from "react-native";
+import { Image, Text, View, LogBox } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./styles";
 import { firebase } from "@/src/firebase/config";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
-import { Loader } from "@/src/components";
+import {
+  Loader,
+  InputBoxA as InputBox,
+  ButtonA as Button,
+} from "@/src/components";
 
 LogBox.ignoreLogs([
   "Setting a timer",
@@ -81,29 +78,20 @@ export default function LoginScreen({ navigation }) {
           style={styles.logo}
           source={require("@/assets/adaptive-icon.png")}
         />
-        <Text style={styles.title}>Salviii</Text>
-        <TextInput
-          style={styles.input}
+        <Text style={styles.title}>Slaviii</Text>
+        <InputBox
           placeholder="E-mail"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
+          onChange={(text) => setEmail(text)}
           value={email}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
+          keyboardType="email-address"
         />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
+        <InputBox
           placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
+          onChange={(text) => setPassword(text)}
           value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
+          secureTextEntry={true}
         />
-        <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
-          <Text style={styles.buttonTitle}>Log in</Text>
-        </TouchableOpacity>
+        <Button text="Log in" onPress={() => onLoginPress()} />
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Don't have an account?{" "}
