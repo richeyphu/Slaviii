@@ -49,7 +49,7 @@ const AddPetProfileScreen = ({ navigation, route }) => {
     .collection("users/" + userID + "/pets")
     .doc(petData.id);
 
-  const handleAddPetProfile = async (values) => {
+  const handleSavePetProfile = async (values) => {
     setUploading(true);
 
     if (image) {
@@ -225,7 +225,7 @@ const AddPetProfileScreen = ({ navigation, route }) => {
           // Run this when click 'Save'
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
-            handleAddPetProfile(values);
+            handleSavePetProfile(values);
             setSubmitting(false);
           }}
         >
@@ -350,7 +350,6 @@ const AddPetProfileScreen = ({ navigation, route }) => {
                 style={{ marginTop: 30, backgroundColor: "salmon" }}
                 onPress={() => {
                   handleSubmit();
-                  // setSubmitting(false);
                 }}
                 // If submitted, disable button
                 disabled={isSubmitting}
@@ -363,7 +362,7 @@ const AddPetProfileScreen = ({ navigation, route }) => {
               </Button>
               <Button
                 block
-                style={{ marginTop: 10, backgroundColor: "darksalmon" }}
+                style={{ marginTop: 10, backgroundColor: "tomato" }}
                 onPress={() => {
                   handleDelete();
                 }}
