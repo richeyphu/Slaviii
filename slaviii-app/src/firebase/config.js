@@ -20,7 +20,7 @@ const firebaseConfig = {
   projectId: PROJECT_ID,
   storageBucket: STORAGE_BUCKET,
   messagingSenderId: MSG_SENDER_ID,
-  appId: APP_ID,
+  appId: APP_ID
 };
 
 if (!firebase.apps.length) {
