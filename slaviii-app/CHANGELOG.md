@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2022-03-15
 ### Added
-- First release, nya!
+- Our first release, nya!
 
 [Released]: https://github.com/richeyphu/Slaviii/releases
 [1.0.0]: https://github.com/richeyphu/Slaviii/releases/tag/v1.0.0
