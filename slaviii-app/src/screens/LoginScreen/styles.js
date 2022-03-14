@@ -35,4 +35,15 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+  errorView: {
+    flex: 1,
+    alignItems: "flex-start",
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+  },
+  errorText: {
+    fontSize: 16,
+    color: "tomato"    
+  },
 });

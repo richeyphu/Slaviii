@@ -1,6 +1,6 @@
 export {
   loginValidationSchema,
-  signupValidationSchema,
+  registerValidationSchema,
   passwordResetSchema,
   addPetProfileSchema,
   addAlarmSchema,

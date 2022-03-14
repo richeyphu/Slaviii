@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Image, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./styles";
+
+import { Formik } from "formik";
+import { registerValidationSchema } from "@/src/utils";
 import { firebase } from "@/src/firebase/config";
 import {
   Loader,
@@ -10,25 +13,20 @@ import {
 } from "@/src/components";
 
 export default function RegistrationScreen({ navigation }) {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onFooterLinkPress = () => {
     navigation.navigate("Login");
   };
 
-  const onRegisterPress = () => {
+  const handleRegisterValidation = async ({ name, email, password, repassword }) => {
     setLoading(true);
-
-    if (password !== confirmPassword) {
+     if (password !== repassword) {
       alert("Passwords don't match.");
       return;
     }
-    
-    firebase
+
+    await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
@@ -36,7 +34,7 @@ export default function RegistrationScreen({ navigation }) {
         const data = {
           id: uid,
           email,
-          fullName,
+          fullName: name,
         };
         const usersRef = firebase.firestore().collection("users");
         usersRef
@@ -67,33 +65,71 @@ export default function RegistrationScreen({ navigation }) {
           style={styles.logo}
           source={require("@/assets/adaptive-icon.png")}
         />
-        <InputBox
-          placeholder="Full Name"
-          onChange={(text) => setFullName(text)}
-          value={fullName}
-        />
-        <InputBox
-          placeholder="E-mail"
-          onChange={(text) => setEmail(text)}
-          value={email}
-          keyboardType="email-address"
-        />
-        <InputBox
-          placeholder="Password"
-          onChange={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-        />
-        <InputBox
-          placeholder="Confirm Password"
-          onChange={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
-          secureTextEntry={true}
-        />
-        <Button
-          text="Create account"
-          onPress={onRegisterPress}
-        />
+        <Formik
+          initialValues={{ name: "", email: "", password: "", repassword: "" }}
+          validationSchema={registerValidationSchema}
+          onSubmit={(values) => handleRegisterValidation(values)}
+        >
+          {({
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+          }) => (
+            <>
+              <InputBox
+                placeholder="Full Name"
+                onChange={handleChange("name")}
+                onBlur={handleBlur("name")}
+                value={values.name}
+              />
+              <View style={styles.errorView}>
+                {errors.name && touched.name && (
+                  <Text style={styles.errorText}>{errors.name}</Text>
+                )}
+              </View>
+              <InputBox
+                placeholder="E-mail"
+                onChange={handleChange("email")}
+                onBlur={handleBlur("email")}
+                value={values.email}
+                keyboardType="email-address"
+              />
+              <View style={styles.errorView}>
+                {errors.email && touched.email && (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                )}
+              </View>
+              <InputBox
+                placeholder="Password"
+                onChange={handleChange("password")}
+                onBlur={handleBlur("password")}
+                value={values.password}
+                secureTextEntry={true}
+              />
+              <View style={styles.errorView}>
+                {errors.password && touched.password && (
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                )}
+              </View>
+              <InputBox
+                placeholder="Confirm Password"
+                onChange={handleChange("repassword")}
+                onBlur={handleBlur("repassword")}
+                value={values.repassword}
+                secureTextEntry={true}
+              />
+              <View style={styles.errorView}>
+                {errors.repassword && touched.repassword && (
+                  <Text style={styles.errorText}>{errors.repassword}</Text>
+                )}
+              </View>
+              <Button text="Create account" onPress={handleSubmit} />
+            </>
+          )}
+        </Formik>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Already got an account?{" "}

@@ -1,7 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Image, Text, View, LogBox } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import styles from "./styles";
+
+import { Formik } from "formik";
+import { loginValidationSchema } from "@/src/utils";
 import { firebase } from "@/src/firebase/config";
 
 import { userStoreContext } from "@/src/contexts/UserContext";
@@ -20,9 +24,6 @@ LogBox.ignoreLogs([
 
 export default function LoginScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSignupPress = () => {
@@ -33,10 +34,9 @@ export default function LoginScreen({ navigation }) {
     navigation.navigate("ForgotPassword");
   };
 
-  const onLoginPress = () => {
+  const handleLoginValidation = async ({ email, password }) => {
     setLoading(true);
-
-    firebase
+    await firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
@@ -80,19 +80,48 @@ export default function LoginScreen({ navigation }) {
           source={require("@/assets/adaptive-icon.png")}
         />
         <Text style={styles.title}>Slaviii</Text>
-        <InputBox
-          placeholder="E-mail"
-          onChange={(text) => setEmail(text)}
-          value={email}
-          keyboardType="email-address"
-        />
-        <InputBox
-          placeholder="Password"
-          onChange={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-        />
-        <Button text="Log in" onPress={() => onLoginPress()} />
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={loginValidationSchema}
+          onSubmit={(values) => handleLoginValidation(values)}
+        >
+          {({
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+          }) => (
+            <>
+              <InputBox
+                placeholder="E-mail"
+                onChange={handleChange("email")}
+                onBlur={handleBlur("email")}
+                value={values.email}
+                keyboardType="email-address"
+              />
+              <View style={styles.errorView}>
+                {errors.email && touched.email && (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                )}
+              </View>
+              <InputBox
+                placeholder="Password"
+                onChange={handleChange("password")}
+                onBlur={handleBlur("password")}
+                value={values.password}
+                secureTextEntry={true}
+              />
+              <View style={styles.errorView}>
+                {errors.password && touched.password && (
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                )}
+              </View>
+              <Button text="Log in" onPress={handleSubmit} />
+            </>
+          )}
+        </Formik>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
             Don't have an account?{" "}

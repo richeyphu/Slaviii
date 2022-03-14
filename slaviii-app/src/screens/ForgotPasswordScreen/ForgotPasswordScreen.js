@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { Label } from "native-base";
 import { Formik } from "formik";
 import { sendPasswordResetEmail } from "firebase/auth";
 
@@ -35,7 +34,7 @@ export default function ForgotPasswordScreen({ navigation }) {
 
   const handleSendPasswordResetEmail = async (values) => {
     setLoading(true);
-
+    setErrorState("");
     const { email } = values;
     try {
       await sendPasswordResetEmail(firebase.auth(), email);
@@ -45,7 +44,6 @@ export default function ForgotPasswordScreen({ navigation }) {
       alert(error);
       setErrorState(error.message);
     }
-
     setLoading(false);
   };
 
@@ -77,8 +75,8 @@ export default function ForgotPasswordScreen({ navigation }) {
               {/* Email input field */}
               <InputBox
                 placeholder="Enter email"
-                onChange={handleChange("email")}
                 value={values.email}
+                onChange={handleChange("email")}
                 onBlur={handleBlur("email")}
                 textContentType="emailAddress"
               />

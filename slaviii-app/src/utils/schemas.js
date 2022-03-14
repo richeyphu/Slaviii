@@ -2,15 +2,17 @@ import * as Yup from "yup";
 
 export const loginValidationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().min(6).label("Password"),
+  password: Yup.string().required().label("Password"),
 });
 
-export const signupValidationSchema = Yup.object().shape({
+export const registerValidationSchema = Yup.object().shape({
+  name: Yup.string().required().label("Full Name"),
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(6).label("Password"),
-  confirmPassword: Yup.string()
+  repassword: Yup.string()
     .oneOf([Yup.ref("password")], "Confirm Password must match password.")
-    .required("Confirm Password is required."),
+    .required()
+    .label("Confirm Password"),
 });
 
 export const passwordResetSchema = Yup.object().shape({
