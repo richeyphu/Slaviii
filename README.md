@@ -9,6 +9,7 @@
 <p align="center">
 <img src="Documents/assets/slaviii-spin.gif" alt="logo">
 </p>
+<p align="center"><b>Slaviii</b>, never let your boss hungry.</p>
 
 ## Repository Tree
 ```
