@@ -24,4 +24,9 @@ export default StyleSheet.create({
     padding: 8,
     width: "90%",
   },
+  handleError: {
+    borderStyle: "solid",
+    borderColor: "tomato",
+    borderWidth: 1,
+  },
 });

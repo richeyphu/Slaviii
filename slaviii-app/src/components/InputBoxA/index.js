@@ -7,7 +7,7 @@ import styles from "./styles";
 const InputBoxA = (props) => {
   const [showPassword, setShowPassword] = useState(props.secureTextEntry);
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, ...(false && styles.handleError) }}>
       <View style={styles.inputBox}>
         <TextInput
           style={styles.inputField}
