@@ -100,6 +100,7 @@ export default function LoginScreen({ navigation }) {
                 onBlur={handleBlur("email")}
                 value={values.email}
                 keyboardType="email-address"
+                errors={errors.email && touched.email}
               />
               <View style={styles.errorView}>
                 {errors.email && touched.email && (
@@ -112,6 +113,7 @@ export default function LoginScreen({ navigation }) {
                 onBlur={handleBlur("password")}
                 value={values.password}
                 secureTextEntry={true}
+                errors={errors.password && touched.password}
               />
               <View style={styles.errorView}>
                 {errors.password && touched.password && (

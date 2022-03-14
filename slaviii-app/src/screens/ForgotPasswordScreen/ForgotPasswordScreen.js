@@ -79,6 +79,7 @@ export default function ForgotPasswordScreen({ navigation }) {
                 onChange={handleChange("email")}
                 onBlur={handleBlur("email")}
                 textContentType="emailAddress"
+                errors={errors.email && touched.email}
               />
               {/* Display Screen Error Mesages */}
               <View style={styles.errorView}>
