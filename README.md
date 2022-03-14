@@ -7,9 +7,11 @@
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-1C1E24.svg?style=flat&logo=EXPO&labelColor=ffffff&logoColor=1C1E24)](https://expo.dev/@phuritd/slaviii)
 
 <p align="center">
-<img src="Documents/assets/slaviii-spin.gif" alt="logo">
+  <img src="Documents/assets/slaviii-spin.gif" alt="logo">
 </p>
-<p align="center"><b>Slaviii</b>, never let your boss hungry.</p>
+<p align="center">
+  <i><b>Slaviii</b>, never let your boss hungry.</i>
+</p>
 
 ## Repository Tree
 ```
