@@ -14,11 +14,11 @@
 ## Repository Tree
 ```
 📦 Slaviii
-├─ Documents
+├─ Documents      # for submitting assignments
 │  ├─ Phase 1
 │  ├─ Phase 2
 │  └─ Phase 3
-└─ slaviii-app
+└─ slaviii-app    # app source
 ```
 
 > An ITE-439 Final Project
