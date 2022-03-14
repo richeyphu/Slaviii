@@ -57,6 +57,7 @@ export default function HomeScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [alarms, setAlarms] = useState(null);
   const [petName, setPetName] = useState([]);
+  const [key, setKey] = useState(0);
 
   const userID = firebase.auth().currentUser.uid;
   const userAlarmInstance = firebase
@@ -143,6 +144,7 @@ export default function HomeScreen({ navigation }) {
 
   useEffect(() => {
     const getNewAlarm = navigation.addListener("focus", () => {
+      setKey(Math.random());
       Notifications.cancelAllScheduledNotificationsAsync();
       getAlarms();
       // setUpAlarms();
@@ -280,7 +282,7 @@ export default function HomeScreen({ navigation }) {
             <RefreshControl refreshing={loading} onRefresh={_onRefresh} />
           }
         >
-          <View style={{}}>
+          <View style={{}} key={key}>
             {/* <FlatList
               data={alarms}
               renderItem={renderAlarm}
@@ -297,7 +299,6 @@ export default function HomeScreen({ navigation }) {
               rightOpenValue={-75}
               stopLeftSwipe={150}
               stopRightSwipe={-150}
-              contentContainerStyle={{ paddingBottom: 80 }}
             />
           </View>
         </Content>
