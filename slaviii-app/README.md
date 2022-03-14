@@ -4,7 +4,7 @@
 ![version](https://img.shields.io/github/package-json/v/richeyphu/Slaviii?filename=slaviii-app%2Fpackage.json)
 [![wakatime](https://wakatime.com/badge/user/6f08f2a4-9df5-4773-bd82-9d6b289479dd/project/e51907ee-18e4-44e1-a5f4-d1e52361ada5.svg)](https://wakatime.com/badge/user/6f08f2a4-9df5-4773-bd82-9d6b289479dd/project/e51907ee-18e4-44e1-a5f4-d1e52361ada5)
 ![react-native](https://img.shields.io/badge/ReactNative->=0.66.4-61DAFB?logo=react)
-[![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-1C1E24.svg?style=flat&logo=EXPO&labelColor=ffffff&logoColor=1C1E24)](https://github.com/expo/expo)
+[![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-1C1E24.svg?style=flat&logo=EXPO&labelColor=ffffff&logoColor=1C1E24)](https://expo.dev/@phuritd/slaviii)
   
 ![logo](assets/icon.png)
 
