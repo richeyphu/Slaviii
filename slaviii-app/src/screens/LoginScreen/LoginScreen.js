@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Image, Text, View, LogBox } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -25,6 +25,7 @@ LogBox.ignoreLogs([
 export default function LoginScreen({ navigation }) {
   const userStore = useContext(userStoreContext);
   const [loading, setLoading] = useState(false);
+  const [key, setKey] = useState(0);
 
   const onSignupPress = () => {
     navigation.navigate("Registration");
@@ -68,8 +69,16 @@ export default function LoginScreen({ navigation }) {
     setLoading(false);
   };
 
+  useEffect(() => {
+    const reloadScreen = navigation.addListener("focus", () => {
+      // Force reload screen when back to this screen
+      setKey(Math.random());
+    });
+    return reloadScreen;
+  }, [navigation]);
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container} key={key}>
       <Loader loading={loading} />
       <KeyboardAwareScrollView
         style={{ flex: 1, width: "100%" }}
