@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "slaviii-app",
-    "slug": "slaviii-app",
+    "name": "Slaviii",
+    "slug": "slaviii",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,7 +15,9 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pum.slaviii",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +25,9 @@
         "backgroundColor": "#ffffff"
       },
       "useNextNotificationsApi": true,
-      "permissions": ["RECEIVE_BOOT_COMPLETED"]
+      "permissions": ["RECEIVE_BOOT_COMPLETED"],
+      "package": "com.pum.slaviii",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,7 +43,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "The app accesses your photos to let you share your loved ones."
         }
       ],
       [
