@@ -323,14 +323,14 @@ export default function ProfileScreen({ navigation }) {
           if (name === "bt_logout") {
             confirmSignOutAlert();
           } else if (name === "bt_editprofile") {
-            // alert("Edit Profile");
             navigation.navigate("EditProfile", {
               fullname: fullname,
               profilePic: profilePic,
             });
           } else if (name === "bt_annoucement") {
-            // alert("Announcement");
             navigation.navigate("Announcement");
+          } else if (name === "bt_pet") {
+            navigation.navigate("AddPetProfile");
           }
         }}
         onPressMain={() => {
