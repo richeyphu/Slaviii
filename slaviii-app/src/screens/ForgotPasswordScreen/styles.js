@@ -17,7 +17,6 @@ export default StyleSheet.create({
   errorView: {
     flex: 1,
     alignItems: "flex-start",
-    marginTop: 10,
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,

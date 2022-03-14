@@ -89,6 +89,7 @@ export default function RegistrationScreen({ navigation }) {
                 onChange={handleChange("name")}
                 onBlur={handleBlur("name")}
                 value={values.name}
+                errors={errors.name && touched.name}
               />
               <View style={styles.errorView}>
                 {errors.name && touched.name && (
@@ -101,6 +102,7 @@ export default function RegistrationScreen({ navigation }) {
                 onBlur={handleBlur("email")}
                 value={values.email}
                 keyboardType="email-address"
+                errors={errors.email && touched.email}
               />
               <View style={styles.errorView}>
                 {errors.email && touched.email && (
@@ -113,6 +115,7 @@ export default function RegistrationScreen({ navigation }) {
                 onBlur={handleBlur("password")}
                 value={values.password}
                 secureTextEntry={true}
+                errors={errors.password && touched.password}
               />
               <View style={styles.errorView}>
                 {errors.password && touched.password && (
@@ -125,6 +128,7 @@ export default function RegistrationScreen({ navigation }) {
                 onBlur={handleBlur("repassword")}
                 value={values.repassword}
                 secureTextEntry={true}
+                errors={errors.repassword && touched.repassword}
               />
               <View style={styles.errorView}>
                 {errors.repassword && touched.repassword && (
