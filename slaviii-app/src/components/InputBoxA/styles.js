@@ -16,12 +16,12 @@ export default StyleSheet.create({
   },
   inputBox: {
     width: "100%",
-    flexDirection: 'row',
+    flexDirection: "row",
     overflow: "hidden",
-    alignItems: 'center',
+    alignItems: "center",
   },
   inputField: {
     padding: 8,
     width: "90%",
-  }
+  },
 });

@@ -19,9 +19,14 @@ export default function RegistrationScreen({ navigation }) {
     navigation.navigate("Login");
   };
 
-  const handleRegisterValidation = async ({ name, email, password, repassword }) => {
+  const handleRegisterValidation = async ({
+    name,
+    email,
+    password,
+    repassword,
+  }) => {
     setLoading(true);
-     if (password !== repassword) {
+    if (password !== repassword) {
       alert("Passwords don't match.");
       return;
     }

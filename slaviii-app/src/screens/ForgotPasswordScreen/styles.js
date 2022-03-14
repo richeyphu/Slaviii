@@ -24,6 +24,6 @@ export default StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: "tomato"    
+    color: "tomato",
   },
 });
