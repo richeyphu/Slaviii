@@ -30,7 +30,7 @@
     },
     "notification": {
       "icon": "./assets/notification-icon.png",
-      "color": "#fa8072",
+      "color": "#ffffff",
       "iosDisplayInForeground": true,
       "androidMode": "default",
       "androidCollapsedTitle": "#{unread_notifications} updates from Slaviii"
@@ -45,6 +45,8 @@
       [
         "expo-notifications",
         {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ffffff",
           "sounds": ["./assets/alarm.wav"]
         }
       ]
