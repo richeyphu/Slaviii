@@ -26,7 +26,7 @@ yarn global add expo-cli
 ```
 
 ## Get started
-### 1. install modules
+### 1. Install modules
 - with `npm`
 ```sh
 npm install 
