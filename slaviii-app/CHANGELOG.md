@@ -6,9 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
+## [1.0.1] - 2022-03-15
+
+### Added
+- Add `Get started` section in `README.md`
+### Fixed
+- Resolve the issue where the app becomes stuck when uploading a large image.
+
 ## [1.0.0] - 2022-03-15
 ### Added
 - Our first release, nya!
 
 [Released]: https://github.com/richeyphu/Slaviii/releases
 [1.0.0]: https://github.com/richeyphu/Slaviii/releases/tag/v1.0.0
+[1.0.0]: https://github.com/richeyphu/Slaviii/releases/tag/v1.0.1
