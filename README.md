@@ -17,7 +17,7 @@
 **Slaviii** is a pet-lover ♥ mobile application—built with React Native, Expo and Firebase by pet lovers for pet lovers—that can record your love ones' information and remind you to fulfill your lords' determination. ***Never ever let your boss hungry again.***
 
 ## Repository Tree
-```
+```sh
 📦 Slaviii
 ├─ Documents      # for submitting assignments
 │  ├─ Phase 1
