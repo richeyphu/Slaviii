@@ -14,20 +14,29 @@
   <i><b>Slaviii</b>, never let your boss hungry.</i>
 </p>
 
-## Get started
-
-### Prerequisite
+## Prerequisite
 #### Expo CLI
-- npm
+- with `npm`
 ```sh
 npm install -g expo-cli
 ```
-- Yarn
+- with `yarn`
 ```sh
 yarn global add expo-cli
 ```
 
-### Config `.env` variables
+## Get started
+### 1. install modules
+- with `npm`
+```sh
+npm install 
+```
+- with `yarn`
+```sh
+yarn install
+```
+
+### 2. Config `.env` variables
 Create `.env` file in your project root (`/`). Then enter your [Firebase](https://console.firebase.google.com/) config using following format.
 ```sh
 API_KEY=your_apiKey
@@ -39,12 +48,12 @@ MSG_SENDER_ID=your_messagingSenderId
 APP_ID=your_appId
 ```
 
-### Run
-- npm
+### 3. Run
+- with `npm`
 ```sh
-npm start
+npm start 
 ```
-- Yarn
+- with `yarn`
 ```sh
 yarn start
 ```
