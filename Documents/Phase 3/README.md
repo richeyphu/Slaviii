@@ -16,7 +16,7 @@
 - [Slaviii Poster](Slaviii%20Poster%20A2.pdf)
 - [Download Application (APK)](https://github.com/richeyphu/Slaviii/raw/main/Documents/Phase%203/slaviii-1.0.0.apk)
 - [Source Code](https://github.com/richeyphu/Slaviii/tree/main/slaviii-app)
-- [Video Link](https://youtu.be/UdDU2fNmtI4)
+- [Video Link](https://youtu.be/gl9O9uc3lyo)
 
 ---
 ![poster](Slaviii%20Poster%20A2.png)
