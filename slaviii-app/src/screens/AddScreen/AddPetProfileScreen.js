@@ -94,6 +94,7 @@ const AddPetProfileScreen = ({ navigation }) => {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
+          // console.log(snapshot.bytesTransferred, snapshot.totalBytes)
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 10000
           );
@@ -150,7 +151,7 @@ const AddPetProfileScreen = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
+      quality: 0.5,
     });
 
     console.log(result);
