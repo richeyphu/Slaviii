@@ -13,6 +13,9 @@
   <i><b>Slaviii</b>, never let your boss hungry.</i>
 </p>
 
+## About
+**Slaviii** is a pet-lover ♥ mobile application—built with React Native, Expo and Firebase by pet lovers for pet lovers—that can record your love ones' information and reminds you to fulfill your lords' determination. ***Never ever let your boss hungry again.***
+
 ## Repository Tree
 ```
 📦 Slaviii
@@ -23,7 +26,8 @@
 └─ slaviii-app    # app source
 ```
 
+---
 > An ITE-439 Final Project
->
+
 > Made with ♥ by PUM Team
 
