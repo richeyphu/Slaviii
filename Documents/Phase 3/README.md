@@ -1,9 +1,17 @@
 # Slaviii Project
+ITE-439: Mobile Device Application Development (2564/2)
 
-### Files
+## Team Member
+- 1913110027 Phurit Dechaboonsiripanit
+- 1913110084 Sanmook Nantasukhon
+- 1913130017 Thitiwat Teeramessiriyos
+
+## Files
 - [Slaviii Manual](Slaviii%20Manual.pdf)
 - [Slaviii Poster](Slaviii%20Poster%20A2.pdf)
 - [Application (APK)](slaviii-1.0.0.apk)
+- [Source Code](https://github.com/richeyphu/Slaviii/tree/main/slaviii-app)
+- [Video Link]()
 
 ---
 ![poster](Slaviii%20Poster%20A2.png)
