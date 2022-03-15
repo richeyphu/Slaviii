@@ -14,9 +14,9 @@
 ## Files
 - [Slaviii Manual](Slaviii%20Manual.pdf)
 - [Slaviii Poster](Slaviii%20Poster%20A2.pdf)
-- [Application (APK)](slaviii-1.0.0.apk)
+- [Download Application (APK)](https://github.com/richeyphu/Slaviii/raw/main/Documents/Phase%203/slaviii-1.0.0.apk)
 - [Source Code](https://github.com/richeyphu/Slaviii/tree/main/slaviii-app)
-- [Video Link]()
+- [Video Link](https://youtu.be/UdDU2fNmtI4)
 
 ---
 ![poster](Slaviii%20Poster%20A2.png)
