@@ -7,8 +7,8 @@
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-1C1E24.svg?style=flat&logo=EXPO&labelColor=ffffff&logoColor=1C1E24)](https://expo.dev/@phuritd/slaviii)
   
 <!-- ![logo](assets/icon.png) -->
-<p align="center" width="300" height="300">
-  <img src="assets/icon.png" alt="logo">
+<p align="center">
+  <img src="assets/icon.png" alt="logo" width="300" height="300">
 </p>
 <p align="center">
   <i><b>Slaviii</b>, never let your boss hungry.</i>
