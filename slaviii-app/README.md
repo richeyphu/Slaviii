@@ -6,6 +6,49 @@
 ![react-native](https://img.shields.io/badge/ReactNative->=0.66.4-61DAFB?logo=react)
 [![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-1C1E24.svg?style=flat&logo=EXPO&labelColor=ffffff&logoColor=1C1E24)](https://expo.dev/@phuritd/slaviii)
   
-![logo](assets/icon.png)
+<!-- ![logo](assets/icon.png) -->
+<p align="center" width="300" height="300">
+  <img src="assets/icon.png" alt="logo">
+</p>
+<p align="center">
+  <i><b>Slaviii</b>, never let your boss hungry.</i>
+</p>
 
+## Get started
+
+### Prerequisite
+#### Expo CLI
+- npm
+```sh
+npm install -g expo-cli
+```
+- Yarn
+```sh
+yarn global add expo-cli
+```
+
+### Config `.env` variables
+Create `.env` file in your project root (`/`). Then enter your [Firebase](https://console.firebase.google.com/) config using following format.
+```sh
+API_KEY=your_apiKey
+AUTH_DOMAIN=your_authDomain
+DB_URL=your_databaseURL
+PROJECT_ID=your_projectId
+STORAGE_BUCKET=your_storageBucket
+MSG_SENDER_ID=your_messagingSenderId
+APP_ID=your_appId
+```
+
+### Run
+- npm
+```sh
+npm start
+```
+- Yarn
+```sh
+yarn start
+```
+> Note: you can also use: `expo start`
+
+---
 > Made with ♥ by PUM Team
