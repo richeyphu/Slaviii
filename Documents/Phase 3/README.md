@@ -1,5 +1,10 @@
 # Slaviii Project
-ITE-439: Mobile Device Application Development (2564/2)
+
+<p align="center">
+  <img src="../assets/slaviii-spin.gif" alt="logo">
+</p>
+
+> ITE-439: Mobile Device Application Development (2564/2)
 
 ## Team Member
 - 1913110027 Phurit Dechaboonsiripanit
