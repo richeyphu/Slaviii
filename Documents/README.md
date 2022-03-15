@@ -11,12 +11,10 @@
 │  └─ Project Proposal.pdf
 ├─ Phase 2
 │  ├─ Prototype.docx
-│  ├─ Prototype.pdf
-│  └─ README.md
+│  └─ Prototype.pdf
 └─ Phase 3
    ├─ Slaviii Poster A2.pdf
-   ├─ slaviii-1.0.0.apk
-   └─ README.md
+   └─ slaviii-1.0.0.apk
 ```
 
 <p align="center">
