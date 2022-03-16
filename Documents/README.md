@@ -15,7 +15,7 @@
 └─ Phase 3
    ├─ Slaviii Manual.pdf
    ├─ Slaviii Poster A2.pdf
-   └─ slaviii-1.0.0.apk
+   └─ slaviii-1.0.1.apk
 ```
 
 <p align="center">
